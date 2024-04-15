@@ -10,43 +10,41 @@ public class Card : MonoBehaviour
     public GameObject Front;
     public GameObject Back;
 
-    public void OnCardSetting(int num)//Ä«µå ¹è¿­ ¼¼ÆÃ
+    public void OnCardSetting(int num)//Ä«ï¿½ï¿½ ï¿½è¿­ ï¿½ï¿½ï¿½ï¿½
     {
         Index = num;
-        CardImage.sprite = Resources.Load<Sprite> ($"img{Index}");
+        CardImage.sprite = Resources.Load<Sprite>($"Img{Index}");
     }
 
-    public void OnOpenCard() //Ä«µå µÚÁý±â
+    public void OnOpenCard() //Ä«ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     {
-        CardAnim.SetBool("isOpen",true);
+        CardAnim.SetBool("isOpen", true);
         transform.Find("Front").gameObject.SetActive(true);
         transform.Find("Back").gameObject.SetActive(false);
 
-        /* °ÔÀÓ¸Å´ÏÀú ½Ì±ÛÅæÈ­ ÀÌÈÄ ÁÖ¼®»èÁ¦
-                if (GameManager.I.FirstCard == null)
-                {
-                    GameManager.I.FirstCard = gameObject;
-                }
-                else
-                {
-                    GameManager.I.SecondCard = gameObject;
-                    GameManager.I.IsMatched();
-                } 
-        */
+        if (GameManager.Instance.FirstCard == null)
+        {
+            GameManager.Instance.FirstCard = this;
+        }
+        else
+        {
+            GameManager.Instance.SecondCard = this;
+            GameManager.Instance.Matched();
+        }
     }
-    public void OnDestroyCard()//Ä«µå°¡ ¸Â´Ù¸é Ä«µå¿ÀºêÁ§Æ®¸¦ 1ÃÊµÚ¿¡ ÆÄ±«
+    public void OnDestroyCard()//Ä«ï¿½å°¡ ï¿½Â´Ù¸ï¿½ Ä«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ 1ï¿½ÊµÚ¿ï¿½ ï¿½Ä±ï¿½
     {
         Destroy(gameObject, 1.0f);
     }
 
-    public void OnCloseCard()// Ä«µå°¡ ¸ÂÁö¾Ê´Ù¸é OnCloseCardInvokeÇÔ¼ö¸¦ 1ÃÊµÚ ½ÇÇà
+    public void OnCloseCard()// Ä«ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ê´Ù¸ï¿½ OnCloseCardInvokeï¿½Ô¼ï¿½ï¿½ï¿½ 1ï¿½Êµï¿½ ï¿½ï¿½ï¿½ï¿½
     {
         Invoke("OnCloseCardInvoke", 1.0f);
     }
 
-    void OnCloseCardInvoke()//Ä«µå¸¦ ´Ù½Ã µÚÁý±â
+    void OnCloseCardInvoke()//Ä«ï¿½å¸¦ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     {
-        CardAnim.SetBool("IsOpen", false);
+        CardAnim.SetBool("isOpen", false);
         transform.Find("Front").gameObject.SetActive(false);
         transform.Find("Back").gameObject.SetActive(true);
     }
