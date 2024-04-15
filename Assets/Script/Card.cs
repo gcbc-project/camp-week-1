@@ -14,12 +14,10 @@ public class Card : MonoBehaviour
     {
         Index = num;
         CardImage.sprite = Resources.Load<Sprite>($"Img{Index}");
-        Debug.Log("클릭");
     }
 
     public void OnOpenCard() //ī�� ������
     {
-        Debug.Log("클릭");
         CardAnim.SetBool("isOpen", true);
         transform.Find("Front").gameObject.SetActive(true);
         transform.Find("Back").gameObject.SetActive(false);

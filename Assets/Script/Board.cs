@@ -8,8 +8,8 @@ public class Board : MonoBehaviour
     public GameObject Card;
     void Start()//ī�� ���� �迭�� �ε��� ����
     {
-        int[] arr = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 15 };
-        arr = arr.OrderBy(x => Random.Range(0f, 15f)).ToArray();
+        int[] arr = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14 };
+        arr = arr.OrderBy(x => Random.Range(0f, 14f)).ToArray();
 
         for (int i = 0; i < 30; i++)
         {
@@ -19,7 +19,7 @@ public class Board : MonoBehaviour
             float y = (i / 5) * 1.1f - 4.0f;
 
             tempCard.transform.position = new Vector2(x, y);
-
+            Debug.Log(arr[i]);
             tempCard.GetComponent<Card>().OnCardSetting(arr[i]);
         }
         // GameManager.Instance.cardCount = arr.Length;
