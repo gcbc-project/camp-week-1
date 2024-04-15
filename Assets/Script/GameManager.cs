@@ -1,11 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public Text TimeTxt; // ½Ã°£ ÆÇ
-    float time = 0.0f; // ½Ã°£ ´ÜÀ§ ¼³Á¤
+    public static GameManager Instance;
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    public Text TimeTxt; // ï¿½Ã°ï¿½ ï¿½ï¿½
+    public GameObject EndTxt;
+
+    public Card FirstCard;
+    public Card SecondCard;
+    public int CardCount = 0;
+
+    float time = 0.0f; // ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     // Start is called before the first frame update
     void Start()
@@ -18,13 +32,40 @@ public class GameManager : MonoBehaviour
     {
         if (time > 30.0f)
         {
-            endTxt.SetActive(true);
+            EndTxt.SetActive(true);
             Time.timeScale = 0.0f;
         }
 
-        // 30ÃÊ °æ°ú½Ã °ÔÀÓ ¿À¹ö ¹× °ÔÀÓ ¿À¹ö ÆÇ³Ú
+        // 30ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç³ï¿½
 
-        time += Time.deltaTime; // ½Ã°£ Èå¸§
-        TimeTxt.text = time.ToString("N2"); // ½Ã°£ Èå¸¥ ¸¸Å­ ¹Ý¿µ
+        time += Time.deltaTime; // ï¿½Ã°ï¿½ ï¿½å¸§
+        TimeTxt.text = time.ToString("N2"); // ï¿½Ã°ï¿½ ï¿½å¸¥ ï¿½ï¿½Å­ ï¿½Ý¿ï¿½
+    }
+
+    public void Matched()
+    {
+        if (FirstCard.Index == SecondCard.Index)
+        {
+            FirstCard.OnDestroyCard();
+            SecondCard.OnDestroyCard();
+            CardCount -= 2;
+            if (CardCount == 0)
+            {
+                GameOver();
+            }
+        }
+        else
+        {
+            FirstCard.OnCloseCard();
+            SecondCard.OnCloseCard();
+        }
+        FirstCard = null;
+        SecondCard = null;
+    }
+
+    void GameOver()
+    {
+        EndTxt.SetActive(true);
+        Time.timeScale = 0.0f;
     }
 }
