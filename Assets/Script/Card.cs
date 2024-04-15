@@ -5,6 +5,17 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
     public Animator CardAnim;
+    public int Index = 0;
+    public SpriteRenderer CardImage;
+    public GameObject Front;
+    public GameObject Back;
+
+    public void OnCardSetting(int num)//카드 배열 세팅
+    {
+        Index = num;
+        CardImage.sprite = Resources.Load<Sprite> ($"img{Index}");
+    }
+
     public void OnOpenCard() //카드 뒤집기
     {
         CardAnim.SetBool("isOpen",true);
@@ -12,14 +23,14 @@ public class Card : MonoBehaviour
         transform.Find("Back").gameObject.SetActive(false);
 
         /* 게임매니저 싱글톤화 이후 주석삭제
-                if (gameManager.I.FirstCard == null)
+                if (GameManager.I.FirstCard == null)
                 {
-                    gameManager.I.FirstCard = gameObject;
+                    GameManager.I.FirstCard = gameObject;
                 }
                 else
                 {
-                    gameManager.I.SecondCard = gameObject;
-                    gameManager.I.IsMatched();
+                    GameManager.I.SecondCard = gameObject;
+                    GameManager.I.IsMatched();
                 } 
         */
     }
