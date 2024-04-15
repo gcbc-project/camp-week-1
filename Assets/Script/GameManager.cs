@@ -16,6 +16,14 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (time > 30.0f)
+        {
+            endTxt.SetActive(true);
+            Time.timeScale = 0.0f;
+        }
+
+        // 30초 경과시 게임 오버 및 게임 오버 판넬
+
         time += Time.deltaTime; // 시간 흐름
         TimeTxt.text = time.ToString("N2"); // 시간 흐른 만큼 반영
     }
