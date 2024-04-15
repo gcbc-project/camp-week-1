@@ -23,15 +23,17 @@ public class Card : MonoBehaviour
                 } 
         */
     }
-    public void OnDestroyCard()
+    public void OnDestroyCard()//카드가 맞다면 카드오브젝트를 1초뒤에 파괴
     {
         Destroy(gameObject, 1.0f);
     }
-    public void OnCloseCard()
+
+    public void OnCloseCard()// 카드가 맞지않다면 OnCloseCardInvoke함수를 1초뒤 실행
     {
         Invoke("OnCloseCardInvoke", 1.0f);
     }
-    void OnCloseCardInvoke()
+
+    void OnCloseCardInvoke()//카드를 다시 뒤집기
     {
         CardAnim.SetBool("IsOpen", false);
         transform.Find("Front").gameObject.SetActive(false);
