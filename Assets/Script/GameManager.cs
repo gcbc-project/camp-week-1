@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
         {
             // 시간을 무조건 30.0으로 맞춘다, 게임 오버 조건 2
             OverTime();
+            GameOver();
         }
 
         time += Time.deltaTime; // 시간초
@@ -85,7 +86,5 @@ public class GameManager : MonoBehaviour
 
         // 바꾼 시간을 시간판에 반영한다.
         TimeTxt.text = time.ToString("N2");
-
-        GameOver();
     }
 }
