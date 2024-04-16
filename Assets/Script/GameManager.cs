@@ -68,4 +68,9 @@ public class GameManager : MonoBehaviour
         EndTxt.SetActive(true);
         Time.timeScale = 0.0f;
     }
+
+    public float GetTime()
+    {
+        return time;
+    }
 }
