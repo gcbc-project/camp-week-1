@@ -78,9 +78,13 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0.0f;
     }
 
+    public float GetTime()
+    {
+        return time;
+    }
+    
     public void OnClosedTeamName()  // 텍스트 UI를 꺼주기 위한 함수 생성
     {
         TeamName.SetActive(false);      // 텍스트 UI 꺼주기
     }
-
 }
