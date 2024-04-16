@@ -285,6 +285,9 @@ MonoBehaviour:
   TimeTxt: {fileID: 304629066}
   TimeTxtAnim: {fileID: 304629068}
   WarningTime: 20
+  StartColor: {r: 0.3529412, g: 0.3529412, b: 0.88235295, a: 0}
+  EndColor: {r: 0.9245283, g: 0.38376644, b: 0.38376644, a: 0}
+  ColorChangeDuration: 10
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
