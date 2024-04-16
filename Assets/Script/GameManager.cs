@@ -21,9 +21,14 @@ public class GameManager : MonoBehaviour
 
     float time = 0.0f; // �ð� ���� ����
 
+    public AudioClip MatchClip;
+    public AudioClip MatchFailClip;
+    AudioSource _audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
+        _audioSource = GetComponent<AudioSource>();
         Time.timeScale = 1.0f;
     }
 
@@ -46,6 +51,7 @@ public class GameManager : MonoBehaviour
     {
         if (FirstCard.Index == SecondCard.Index)
         {
+            _audioSource.PlayOneShot(MatchClip);
             FirstCard.OnDestroyCard();
             SecondCard.OnDestroyCard();
             CardCount -= 2;
@@ -56,6 +62,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            _audioSource.PlayOneShot(MatchFailClip);
             FirstCard.OnCloseCard();
             SecondCard.OnCloseCard();
         }

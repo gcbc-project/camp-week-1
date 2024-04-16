@@ -10,6 +10,14 @@ public class Card : MonoBehaviour
     public GameObject Front;
     public GameObject Back;
 
+    public AudioClip FlipClip;
+    AudioSource _audioSource;
+
+    void Start()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
+
     public void OnCardSetting(int num)//ī�� �迭 ����
     {
         Index = num;
@@ -18,6 +26,8 @@ public class Card : MonoBehaviour
 
     public void OnOpenCard() //ī�� ������
     {
+        _audioSource.PlayOneShot(FlipClip);
+
         CardAnim.SetBool("isOpen", true);
         transform.Find("Front").gameObject.SetActive(true);
         transform.Find("Back").gameObject.SetActive(false);
