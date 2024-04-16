@@ -6,6 +6,7 @@ public class Card : MonoBehaviour
 {
     public Animator CardAnim;
     public int Index = 0;
+    public string Name = "";        // 카드의 이름을 넣기위해 변수생성
     public SpriteRenderer CardImage;
     public GameObject Front;
     public GameObject Back;
@@ -22,9 +23,10 @@ public class Card : MonoBehaviour
         _cardBackSprite = Back.GetComponent<SpriteRenderer>();
     }
 
-    public void OnCardSetting(int num)//ī�� �迭 ����
+    public void OnCardSetting(CardInfo cardInfo)//ī�� �迭 ����
     {
-        Index = num;
+        Index = cardInfo.Id;        //Index에 카드 이미지 번호를 넣어준다
+        Name = cardInfo.Name;       // Name에 팀원의 이름을 넣어준다
         CardImage.sprite = Resources.Load<Sprite>($"Img{Index}");
     }
 
