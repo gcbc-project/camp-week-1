@@ -57,6 +57,6 @@ public class Board : MonoBehaviour
             tempCard.transform.position = new Vector2(x, y);
             tempCard.GetComponent<Card>().OnCardSetting(cardInfos[i]);
         }
-        // GameManager.Instance.cardCount = arr.Length;
+         GameManager.Instance.CardCount = arr.Length;
     }
 }
