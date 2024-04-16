@@ -77,6 +77,6 @@ public class GameManager : MonoBehaviour
     void CalculatedFinalScore()
     {
         TimeScore = Mathf.Round(time - 30) * 5;
-        FinalScore = TimeScore + CardMatchScore;
+        FinalScore = TimeScore + CardMatchScore - MatchingCardCount;
     }
 }
