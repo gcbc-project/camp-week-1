@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
-    public Text TimeTxt; // �ð� ��
+    public Text TimeTxt; 
     public GameObject EndTxt;
     public Text ScoreTxt;
 
@@ -20,16 +20,17 @@ public class GameManager : MonoBehaviour
     public Card SecondCard;
     public int CardCount = 0;
     public int MatchingCardCount = 0;
+    public int CardMatchScore = 0;
+    public float TimeScore = 0f;
 
-    float time = 0.0f; // �ð� ���� ����
+    public float FinalScore = 0.0f;
+    float time = 0.0f;
 
-    // Start is called before the first frame update
     void Start()
     {
         Time.timeScale = 1.0f;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         if (time > 30.0f)
@@ -38,26 +39,25 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0.0f;
         }
 
-        // 30�� ����� ���� ���� �� ���� ���� �ǳ�
-
-        time += Time.deltaTime; // �ð� �帧
-        TimeTxt.text = time.ToString("N2"); // �ð� �帥 ��ŭ �ݿ�
+        time += Time.deltaTime; 
+        TimeTxt.text = time.ToString("N2");
     }
 
     public void Matched()
     {
         MatchingCardCount++;
-        if (FirstCard.Index == SecondCard.Index)
+        if (FirstCard.Index == SecondCard.Index) //Matched
         {
             FirstCard.OnDestroyCard();
             SecondCard.OnDestroyCard();
             CardCount -= 2;
+            CardMatchScore += 5;
             if (CardCount == 0)
             {
                 GameOver();
             }
         }
-        else
+        else//Not Matched
         {
             FirstCard.OnCloseCard();
             SecondCard.OnCloseCard();
@@ -69,7 +69,14 @@ public class GameManager : MonoBehaviour
     void GameOver()
     {
         EndTxt.SetActive(true);
-        ScoreTxt.text = $"매칭 횟수 : {MatchingCardCount}회";
+        CalculatedFinalScore();
+        ScoreTxt.text = $"매칭시도 횟수 : {MatchingCardCount}회 \n 점수 : {FinalScore}";
         Time.timeScale = 0.0f;
+    }
+
+    void CalculatedFinalScore()
+    {
+        TimeScore = Mathf.Round(time - 30) * 5;
+        FinalScore = TimeScore + CardMatchScore;
     }
 }
