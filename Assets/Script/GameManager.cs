@@ -29,9 +29,15 @@ public class GameManager : MonoBehaviour
     private float _finalScore = 0.0f;
 
     float time = 0.0f;
+    
+    public AudioClip MatchClip;
+    public AudioClip MatchFailClip;
+    AudioSource _audioSource;
 
+    // Start is called before the first frame update
     void Start()
     {
+        _audioSource = GetComponent<AudioSource>();
         Time.timeScale = 1.0f;
     }
     
@@ -54,7 +60,9 @@ public class GameManager : MonoBehaviour
         _matchingCardCount++;
         TeamName.SetActive(true);  // 텍스트 UI 켜주기
         if (FirstCard.Index == SecondCard.Index)
-        {          
+        {
+            _audioSource.PlayOneShot(MatchClip);
+
             FirstCard.OnDestroyCard();
             SecondCard.OnDestroyCard();
             CardCount -= 2;
@@ -69,7 +77,9 @@ public class GameManager : MonoBehaviour
         }
         else//Not Matched
         {
+            _audioSource.PlayOneShot(MatchFailClip);
             TeamName.GetComponent<Text>().text = "실패";      //켜준 텍스트 UI에 실패 문구 띄워주기
+
             FirstCard.OnCloseCard();
             SecondCard.OnCloseCard();     
             time += 5.0f;     
