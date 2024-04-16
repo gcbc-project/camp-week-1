@@ -19,11 +19,12 @@ public class GameManager : MonoBehaviour
     public Card FirstCard;
     public Card SecondCard;
     public int CardCount = 0;
-    public int MatchingCardCount = 0;
-    public int CardMatchScore = 0;
-    public float TimeScore = 0f;
 
-    public float FinalScore = 0.0f;
+    private int _matchingCardCount = 0;
+    private int _cardMatchScore = 0;
+    private float _timeScore = 0f;
+    private float _finalScore = 0.0f;
+
     float time = 0.0f;
 
     void Start()
@@ -45,13 +46,13 @@ public class GameManager : MonoBehaviour
 
     public void Matched()
     {
-        MatchingCardCount++;
+        _matchingCardCount++;
         if (FirstCard.Index == SecondCard.Index) //Matched
         {
             FirstCard.OnDestroyCard();
             SecondCard.OnDestroyCard();
             CardCount -= 2;
-            CardMatchScore += 5;
+            _cardMatchScore += 5;
             if (CardCount == 0)
             {
                 GameOver();
@@ -70,13 +71,13 @@ public class GameManager : MonoBehaviour
     {
         EndTxt.SetActive(true);
         CalculatedFinalScore();
-        ScoreTxt.text = $"매칭시도 횟수 : {MatchingCardCount}회 \n 점수 : {FinalScore}";
+        ScoreTxt.text = $"매칭시도 횟수 : {_matchingCardCount}회 \n 점수 : {_finalScore}";
         Time.timeScale = 0.0f;
     }
 
     void CalculatedFinalScore()
     {
-        TimeScore = Mathf.Round(time - 30) * 5;
-        FinalScore = TimeScore + CardMatchScore - MatchingCardCount;
+        _timeScore = Mathf.Round(time - 30) * 5;
+        _finalScore = _timeScore + _cardMatchScore - _matchingCardCount;
     }
 }
