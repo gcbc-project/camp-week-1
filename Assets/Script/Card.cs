@@ -11,11 +11,15 @@ public class Card : MonoBehaviour
     public GameObject Back;
 
     public AudioClip FlipClip;
+
     AudioSource _audioSource;
+    bool _isFlip = false;
+    SpriteRenderer _cardBackSprite;
 
     void Start()
     {
         _audioSource = GetComponent<AudioSource>();
+        _cardBackSprite = Back.GetComponent<SpriteRenderer>();
     }
 
     public void OnCardSetting(int num)//ī�� �迭 ����
@@ -31,6 +35,11 @@ public class Card : MonoBehaviour
         CardAnim.SetBool("isOpen", true);
         transform.Find("Front").gameObject.SetActive(true);
         transform.Find("Back").gameObject.SetActive(false);
+
+        if (!_isFlip)
+        {
+            _cardBackSprite.color = new Color(0.84313725f, 0.86666667f, 0.86274510f, 1f);
+        }
 
         if (GameManager.Instance.FirstCard == null)
         {
@@ -58,4 +67,5 @@ public class Card : MonoBehaviour
         transform.Find("Front").gameObject.SetActive(false);
         transform.Find("Back").gameObject.SetActive(true);
     }
+
 }
