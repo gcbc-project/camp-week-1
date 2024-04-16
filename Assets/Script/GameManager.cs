@@ -58,6 +58,9 @@ public class GameManager : MonoBehaviour
         {
             FirstCard.OnCloseCard();
             SecondCard.OnCloseCard();
+
+            time += 5.0f; 
+            // 실패시 5초 패널티를 추가
         }
         FirstCard = null;
         SecondCard = null;
