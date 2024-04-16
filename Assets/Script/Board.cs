@@ -10,7 +10,7 @@ public class CardInfo       // 카드에 이미지와 이름을 넣기위한 클
         _name = name;       //_name에 name을 넣어줌
     }
 
-    private int _id;        
+    private int _id;
     private string _name;
 
     public int Id
@@ -57,6 +57,6 @@ public class Board : MonoBehaviour
             tempCard.transform.position = new Vector2(x, y);
             tempCard.GetComponent<Card>().OnCardSetting(cardInfos[i]);
         }
-         GameManager.Instance.CardCount = arr.Length;
+        GameManager.Instance.CardCount = cardInfos.Length;
     }
 }
