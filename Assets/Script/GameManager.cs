@@ -14,10 +14,12 @@ public class GameManager : MonoBehaviour
 
     public Text TimeTxt; // �ð� ��
     public GameObject EndTxt;
+    public Text ScoreTxt;
 
     public Card FirstCard;
     public Card SecondCard;
     public int CardCount = 0;
+    public int MatchingCardCount = 0;
 
     float time = 0.0f; // �ð� ���� ����
 
@@ -32,7 +34,7 @@ public class GameManager : MonoBehaviour
     {
         if (time > 30.0f)
         {
-            EndTxt.SetActive(true);
+            GameOver();
             Time.timeScale = 0.0f;
         }
 
@@ -44,6 +46,7 @@ public class GameManager : MonoBehaviour
 
     public void Matched()
     {
+        MatchingCardCount++;
         if (FirstCard.Index == SecondCard.Index)
         {
             FirstCard.OnDestroyCard();
@@ -66,6 +69,7 @@ public class GameManager : MonoBehaviour
     void GameOver()
     {
         EndTxt.SetActive(true);
+        ScoreTxt.text = $"매칭 횟수 : {MatchingCardCount}회";
         Time.timeScale = 0.0f;
     }
 }
