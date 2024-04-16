@@ -33,7 +33,8 @@ public class GameManager : MonoBehaviour
     {
         if (time >= 30.0f)
         {
-            GameOver();
+            // 시간을 무조건 30.0으로 맞춘다, 게임 오버 조건 2
+            OverTime();
         }
 
         time += Time.deltaTime; // 시간초
@@ -48,12 +49,10 @@ public class GameManager : MonoBehaviour
             SecondCard.OnDestroyCard();
             CardCount -= 2;
 
-            // 본래 게임 오버 함수를 출력하나, 카드 카운터가 0일시 시간이 30초 보다 적어도 30.00으로 만드므로, 게임오버를 호출하는게 아닌 따로 게임 끝 판넬과 시간 멈춤을
-            // 부여
+           // 게임오버 조건 1
             if (CardCount == 0)
             {
-                EndTxt.SetActive(true);
-                Time.timeScale = 0.0f;
+             GameOver() ;
             }
         }
         else
@@ -72,17 +71,21 @@ public class GameManager : MonoBehaviour
     // 게임오버 함수를 밖으로 빼냄, 이를 통해 윗 구간에서 게임오버를 호출 할 수 있도록 바꿈
     void GameOver()
     {
-        // 게임 오버 호출 시 시간은 무조건 30.00f로 바꾼다. (32초든 31초든)
-        time = 30.00f;
-
-        // 바꾼 시간을 시간판에 반영한다.
-        TimeTxt.text = time.ToString("N2");
-
-        // 게임 끝 판넬을 불러온다
+         // 게임 끝 판넬을 불러온다
         EndTxt.SetActive(true);
 
         // 시간을 멈춘다
         Time.timeScale = 0.0f;
     }
 
+    void OverTime()
+    {
+        // 시간을 무조건 30초로 맞춘다
+        time = 30.00f;
+
+        // 바꾼 시간을 시간판에 반영한다.
+        TimeTxt.text = time.ToString("N2");
+
+        GameOver();
+    }
 }
