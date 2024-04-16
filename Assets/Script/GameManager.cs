@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,14 +13,14 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
-    public Text TimeTxt; 
+    public Text TimeTxt;
     public GameObject EndTxt;
     public Text ScoreTxt;
     public GameObject TeamName; // 팀네임 텍스트 생성
     public Card FirstCard;
     public Card SecondCard;
     public int CardCount = 0;
-   
+
 
     private int _matchingCardCount = 0;
     private int _cardMatchScore = 0;
@@ -29,7 +28,7 @@ public class GameManager : MonoBehaviour
     private float _finalScore = 0.0f;
 
     float time = 0.0f;
-    
+
     public AudioClip MatchClip;
     public AudioClip MatchFailClip;
     AudioSource _audioSource;
@@ -40,7 +39,7 @@ public class GameManager : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         Time.timeScale = 1.0f;
     }
-    
+
     void Update()
     {
         if (time >= 30.0f)
@@ -50,11 +49,11 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0.0f;
         }
 
-        time += Time.deltaTime; 
+        time += Time.deltaTime;
         TimeTxt.text = time.ToString("N2");
     }
 
-   
+
     public void Matched()
     {
         _matchingCardCount++;
@@ -69,10 +68,10 @@ public class GameManager : MonoBehaviour
 
             TeamName.GetComponent<Text>().text = FirstCard.Name.ToString();       //켜준 텍스트 UI에 이미지에 맞는 팀원 이름 띄워주기
             _cardMatchScore += 5;
-            
+
             if (CardCount == 0)
             {
-             GameOver() ;
+                GameOver();
             }
         }
         else//Not Matched
@@ -81,8 +80,8 @@ public class GameManager : MonoBehaviour
             TeamName.GetComponent<Text>().text = "실패";      //켜준 텍스트 UI에 실패 문구 띄워주기
 
             FirstCard.OnCloseCard();
-            SecondCard.OnCloseCard();     
-            time += 5.0f;     
+            SecondCard.OnCloseCard();
+            time += 5.0f;
         }
         FirstCard = null;
         SecondCard = null;
@@ -92,7 +91,7 @@ public class GameManager : MonoBehaviour
     // 게임오버 함수를 밖으로 빼냄, 이를 통해 윗 구간에서 게임오버를 호출 할 수 있도록 바꿈
     void GameOver()
     {
-         // 게임 끝 판넬을 불러온다
+        // 게임 끝 판넬을 불러온다
         EndTxt.SetActive(true);
         CalculatedFinalScore();
         ScoreTxt.text = $"매칭시도 횟수 : {_matchingCardCount}회 \n 점수 : {_finalScore}";
@@ -104,17 +103,17 @@ public class GameManager : MonoBehaviour
         _timeScore = Mathf.Round(time - 30) * 5;
         _finalScore = _timeScore + _cardMatchScore - _matchingCardCount;
     }
-    
+
     public float GetTime()
     {
         return time;
     }
-    
+
     public void OnClosedTeamName()  // 텍스트 UI를 꺼주기 위한 함수 생성
     {
         TeamName.SetActive(false);      // 텍스트 UI 꺼주기
     }
-    
+
     void OverTime()
     {
         // 시간을 무조건 30초로 맞춘다
