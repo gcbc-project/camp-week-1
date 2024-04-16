@@ -6,21 +6,42 @@ public class Card : MonoBehaviour
 {
     public Animator CardAnim;
     public int Index = 0;
+    public string Name = "";        // 카드의 이름을 넣기위해 변수생성
     public SpriteRenderer CardImage;
     public GameObject Front;
     public GameObject Back;
 
-    public void OnCardSetting(int num)//ī�� �迭 ����
+    public AudioClip FlipClip;
+
+    AudioSource _audioSource;
+    bool _isFlip = false;
+    SpriteRenderer _cardBackSprite;
+
+    void Start()
     {
-        Index = num;
+        _audioSource = GetComponent<AudioSource>();
+        _cardBackSprite = Back.GetComponent<SpriteRenderer>();
+    }
+
+    public void OnCardSetting(CardInfo cardInfo)//ī�� �迭 ����
+    {
+        Index = cardInfo.Id;        //Index에 카드 이미지 번호를 넣어준다
+        Name = cardInfo.Name;       // Name에 팀원의 이름을 넣어준다
         CardImage.sprite = Resources.Load<Sprite>($"Img{Index}");
     }
 
     public void OnOpenCard() //ī�� ������
     {
+        _audioSource.PlayOneShot(FlipClip);
+
         CardAnim.SetBool("isOpen", true);
         transform.Find("Front").gameObject.SetActive(true);
         transform.Find("Back").gameObject.SetActive(false);
+
+        if (!_isFlip)
+        {
+            _cardBackSprite.color = new Color(0.84313725f, 0.86666667f, 0.86274510f, 1f);
+        }
 
         if (GameManager.Instance.FirstCard == null)
         {
@@ -48,4 +69,5 @@ public class Card : MonoBehaviour
         transform.Find("Front").gameObject.SetActive(false);
         transform.Find("Back").gameObject.SetActive(true);
     }
+
 }
