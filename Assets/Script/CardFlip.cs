@@ -5,7 +5,7 @@ using UnityEngine;
 public class CardFlip : MonoBehaviour
 {
     public static CardFlip Instance;
-    
+
     private Card[] _cardNum;
     [SerializeField]
     private float CardFlipTime = 2.0f;
@@ -35,27 +35,27 @@ public class CardFlip : MonoBehaviour
 
     void FindAllCard(int state)
     {
-        //°ÔÀÓ ½ÃÀÛ°ú µ¿½Ã¿¡ ½ÇÇàµÇ¸é TimeTxt¸¦ ºñÈ°¼ºÈ­ÈÄ Ä«µå°¡ ´Ù½Ã µÚÁý¾îÁú¶§ È°¼ºÈ­
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Û°ï¿½ ï¿½ï¿½ï¿½Ã¿ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½ TimeTxtï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­ï¿½ï¿½ Ä«ï¿½å°¡ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­
         if (state == 1)
             GameManager.Instance.TimeTxt.gameObject.SetActive(false);
         if (state == 2)
             CanCardFlipNum--;
 
 
-        //Scene¿¡¼­ »ý¼ºµÇ¾îÀÖ´Â Card¸¦ ¸ðµÎ ¹è¿­¿¡ ÇÒ´ç       
+        //Sceneï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½Ö´ï¿½ Cardï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½è¿­ï¿½ï¿½ ï¿½Ò´ï¿½       
         GameObject[] cardObjects = GameObject.FindGameObjectsWithTag("Card");
 
-        //¹è¿­ÀÇ Å©±â¸¦ Ä«µåÀÇ °³¼ö·Î ¼³Á¤
+        //ï¿½è¿­ï¿½ï¿½ Å©ï¿½â¸¦ Ä«ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         _cardNum = new Card[cardObjects.Length];
 
-        //Ä«µå ¿ÀºêÁ§Æ®µéÀÇ Ä«µå ÄÄÆ÷³ÍÆ®¸¦ _cardNum¹è¿­¿¡ ÀúÀå
+        //Ä«ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ _cardNumï¿½è¿­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         for (int i = 0; i < cardObjects.Length; i++)
         {
             Card cardComponent = cardObjects[i].GetComponent<Card>();
 
             _cardNum[i] = cardComponent;
         }
-        //Ä«µå ¾Õ¸éÀ¸·Î µÚÁý±â
+        //Ä«ï¿½ï¿½ ï¿½Õ¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         OnAllCardFlipFront(state);
     }
     void OnAllCardFlipFront(int state)
@@ -64,7 +64,7 @@ public class CardFlip : MonoBehaviour
         {
             _cardNum[i].OnCardFlipFront();
         }
-        //°ÔÀÓ ½ÃÀÛ°ú µ¿½Ã¿¡ ½ÇÇàµÇ¸é TimeTxt¸¦ ºñÈ°¼ºÈ­ÈÄ Ä«µå°¡ ´Ù½Ã µÚÁý¾îÁú¶§ È°¼ºÈ­
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Û°ï¿½ ï¿½ï¿½ï¿½Ã¿ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½ TimeTxtï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­ï¿½ï¿½ Ä«ï¿½å°¡ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­
         if (state == 1)
             Invoke("TimeTextActive", CardFlipTime);
         Invoke("OnAllCardFlipBack", CardFlipTime);
@@ -81,7 +81,6 @@ public class CardFlip : MonoBehaviour
     void TimeTextActive()
     {
         GameManager.Instance.TimeTxt.gameObject.SetActive(true);
-        GameManager.Instance.time = 0.0f;
-
+        GameManager.Instance.InitRunningTime();
     }
 }
