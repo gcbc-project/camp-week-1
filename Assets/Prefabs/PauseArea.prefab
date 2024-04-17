@@ -96,6 +96,12 @@ MonoBehaviour:
   HomeBtn: {fileID: 5892795007306394858}
   NextBtn: {fileID: 7091162007782356171}
   OverlayPanel: {fileID: 6721700903866324117}
+  EndGamePanel: {fileID: 0}
+  FinalScorePanel: {fileID: 0}
+  GameOverTitle: {fileID: 0}
+  MatchScoreTxt: {fileID: 0}
+  CurrentScoreTxt: {fileID: 0}
+  BestScoreTxt: {fileID: 0}
 --- !u!1 &731062629480914192
 GameObject:
   m_ObjectHideFlags: 0
