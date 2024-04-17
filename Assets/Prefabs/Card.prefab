@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 2111792253745340466}
   m_Layer: 0
   m_Name: Card
-  m_TagString: Untagged
+  m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -271,6 +271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CardAnim: {fileID: 2815179162458057485}
   Index: 0
+  Name: 
   CardImage: {fileID: 4318995229008381077}
   Front: {fileID: 1796422327267979950}
   Back: {fileID: 7422909152118406199}

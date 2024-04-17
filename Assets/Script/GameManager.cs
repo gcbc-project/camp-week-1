@@ -20,15 +20,25 @@ public class GameManager : MonoBehaviour
     public Card FirstCard;
     public Card SecondCard;
     public int CardCount = 0;
-
+    float _runningTime = 0.0f;
 
     private int _matchingCardCount = 0;
     private int _cardMatchScore = 0;
     private float _timeScore = 0f;
     private float _finalScore = 0.0f;
 
-    float time = 0.0f;
+    // time를 public로 아에 빼냄
+    [Header("시간 조정")]
+    [Tooltip("전체 시간 조정")]
+    [SerializeField] public float GameTime = 60.0f;
 
+    [Tooltip("보너스 시간 조정")]
+    [SerializeField] float PlusTime = 0.0f;
+
+    [Tooltip("패널티 시간 조정")]
+    [SerializeField] float FailTime = 0.0f;
+
+    [Header("오디오")]
     public AudioClip MatchClip;
     public AudioClip MatchFailClip;
     AudioSource _audioSource;
@@ -38,19 +48,25 @@ public class GameManager : MonoBehaviour
     {
         _audioSource = GetComponent<AudioSource>();
         Time.timeScale = 1.0f;
+
+        CardFlip.Instance.OnFlipCard(1);
+        InitRunningTime();
     }
 
     void Update()
     {
-        if (time >= 30.0f)
+        if (_runningTime >= 0.0f)
         {
-            OverTime();
-            GameOver();
-            Time.timeScale = 0.0f;
+            _runningTime -= Time.deltaTime;
         }
 
-        time += Time.deltaTime;
-        TimeTxt.text = time.ToString("N2");
+        else
+        {
+            GameOver();
+            OverTime();
+        }
+
+        TimeTxt.text = _runningTime.ToString("N2");
     }
 
 
@@ -65,6 +81,7 @@ public class GameManager : MonoBehaviour
             FirstCard.OnDestroyCard();
             SecondCard.OnDestroyCard();
             CardCount -= 2;
+            _runningTime += PlusTime;
 
             TeamName.GetComponent<Text>().text = FirstCard.Name.ToString();       //켜준 텍스트 UI에 이미지에 맞는 팀원 이름 띄워주기
             _cardMatchScore += 5;
@@ -81,7 +98,8 @@ public class GameManager : MonoBehaviour
 
             FirstCard.OnCloseCard();
             SecondCard.OnCloseCard();
-            time += 5.0f;
+
+            _runningTime -= FailTime;
         }
         FirstCard = null;
         SecondCard = null;
@@ -100,13 +118,13 @@ public class GameManager : MonoBehaviour
 
     void CalculatedFinalScore()
     {
-        _timeScore = Mathf.Round(time - 30) * 5;
+        _timeScore = Mathf.Round(_runningTime - 30) * 5;
         _finalScore = _timeScore + _cardMatchScore - _matchingCardCount;
     }
 
     public float GetTime()
     {
-        return time;
+        return _runningTime;
     }
 
     public void OnClosedTeamName()  // 텍스트 UI를 꺼주기 위한 함수 생성
@@ -116,10 +134,15 @@ public class GameManager : MonoBehaviour
 
     void OverTime()
     {
-        // 시간을 무조건 30초로 맞춘다
-        time = 30.00f;
+        // 시간을 무조건 0초로 맞춘다
+        _runningTime = 0.0f;
 
         // 바꾼 시간을 시간판에 반영한다.
-        TimeTxt.text = time.ToString("N2");
+        TimeTxt.text = _runningTime.ToString("N2");
+    }
+
+    public void InitRunningTime()
+    {
+        _runningTime = GameTime;
     }
 }
