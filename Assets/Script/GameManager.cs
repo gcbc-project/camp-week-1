@@ -14,8 +14,6 @@ public class GameManager : MonoBehaviour
     }
 
     public Text TimeTxt;
-    public GameObject EndTxt;
-    public Text ScoreTxt;
     public GameObject TeamName; // 팀네임 텍스트 생성
     public Card FirstCard;
     public Card SecondCard;
@@ -24,10 +22,17 @@ public class GameManager : MonoBehaviour
 
     private int _matchingCardCount = 0;
     private int _cardMatchScore = 0;
-    private float _timeScore = 0f;
-    private float _finalScore = 0.0f;
+    private int _timeScore = 0;
+    private int _finalScore = 0;
 
+    [Header("Stage")]
+    [Tooltip("현재 Stage Level 입력")]
+    [SerializeField] int StageLevel;
     // time를 public로 아에 빼냄
+    [Header("게임 종료")]
+    [Tooltip("GameOverPanel Prefab을 넣는다")]
+    [SerializeField] public GameObject GameOverPanel;
+
     [Header("시간 조정")]
     [Tooltip("전체 시간 조정")]
     [SerializeField] public float GameTime = 60.0f;
@@ -109,16 +114,15 @@ public class GameManager : MonoBehaviour
     // 게임오버 함수를 밖으로 빼냄, 이를 통해 윗 구간에서 게임오버를 호출 할 수 있도록 바꿈
     void GameOver()
     {
-        // 게임 끝 판넬을 불러온다
-        EndTxt.SetActive(true);
         CalculatedFinalScore();
-        ScoreTxt.text = $"매칭시도 횟수 : {_matchingCardCount}회 \n 점수 : {_finalScore}";
         Time.timeScale = 0.0f;
+        GameOverPanel.GetComponent<GamePanel>().SetFinalScore(_matchingCardCount, _finalScore, CardCount == 0, StageLevel);
+        GameOverPanel.SetActive(true);
     }
 
     void CalculatedFinalScore()
     {
-        _timeScore = Mathf.Round(_runningTime - 30) * 5;
+        _timeScore = Convert.ToInt32(Mathf.Round(_runningTime - 30) * 5);
         _finalScore = _timeScore + _cardMatchScore - _matchingCardCount;
     }
 

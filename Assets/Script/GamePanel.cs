@@ -18,25 +18,33 @@ public class GamePanel : MonoBehaviour
     [SerializeField] Image HomeBtn;
     [SerializeField] Image NextBtn;
 
-    [Header("Others")]
+    [Header("Panels")]
     [SerializeField] GameObject OverlayPanel;
+    [SerializeField] GameObject EndGamePanel;
+    [SerializeField] GameObject FinalScorePanel;
 
+    [Header("Text")]
+    [SerializeField] Text GameOverTitle;
+    [SerializeField] Text MatchScoreTxt;
+    [SerializeField] Text CurrentScoreTxt;
+    [SerializeField] Text BestScoreTxt;
     void Start()
     {
         if (IsLastStage)
         {
-            if (NextBtn != null)
-            {
-                NextBtn.enabled = false;
-                foreach (Transform child in NextBtn.transform)
-                {
-                    child.gameObject.SetActive(false);
-                }
-
-                RetryBtn.GetComponent<RectTransform>().anchoredPosition = new Vector2(-100f, 30);
-                HomeBtn.GetComponent<RectTransform>().anchoredPosition = new Vector2(100f, 30);
-            }
+            HideNextBtn();
         }
+    }
+    private void HideNextBtn()
+    {
+        NextBtn.enabled = false;
+        foreach (Transform child in NextBtn.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+
+        RetryBtn.GetComponent<RectTransform>().anchoredPosition = new Vector2(-100f, 30);
+        HomeBtn.GetComponent<RectTransform>().anchoredPosition = new Vector2(100f, 30);
     }
 
     public void OnClickRetryBtn()
@@ -65,5 +73,48 @@ public class GamePanel : MonoBehaviour
         Time.timeScale = 1.0f;
         gameObject.SetActive(false);
         OverlayPanel.SetActive(false);
+    }
+
+    public void OnClickCheckBtn()
+    {
+        FinalScorePanel.SetActive(false);
+        EndGamePanel.SetActive(true);
+    }
+
+    public void SetFinalScore(int matchCount, int currentScore, bool isClear, int currentStageLevel)
+    {
+        MatchScoreTxt.text = matchCount.ToString();
+        CurrentScoreTxt.text = currentScore.ToString();
+
+        if (PlayerPrefs.HasKey("BestScore"))
+        {
+            int prevBest = PlayerPrefs.GetInt("BestScore");
+            int currentBest = Math.Max(prevBest, currentScore);
+            PlayerPrefs.SetInt("BestScore", currentBest);
+            BestScoreTxt.text = currentBest.ToString();
+        }
+        else
+        {
+            PlayerPrefs.SetInt("BestScore", currentScore);
+            BestScoreTxt.text = currentScore.ToString();
+        }
+
+        if (isClear)
+        {
+            GameOverTitle.text = "게임 클리어";
+            if (PlayerPrefs.HasKey("StageLevel"))
+            {
+                int bestStageLevel = PlayerPrefs.GetInt("StageLevel");
+                if (bestStageLevel == currentStageLevel)
+                {
+                    PlayerPrefs.SetInt("StageLevel", bestStageLevel + 1);
+                }
+            }
+        }
+        else
+        {
+            GameOverTitle.text = "게임 오버";
+            HideNextBtn();
+        }
     }
 }
