@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     // time를 public로 아에 빼냄
     [Header ("시간 조정")]
     [Tooltip("전체 시간 조정")]
-    [SerializeField] float time = 0.0f;
+    [SerializeField] public float time = 0.0f;
 
     [Tooltip("보너스 시간 조정")]
     [SerializeField] float PlusTime = 0.0f;
@@ -41,12 +41,14 @@ public class GameManager : MonoBehaviour
     public AudioClip MatchClip;
     public AudioClip MatchFailClip;
     AudioSource _audioSource;
-
+  
     // Start is called before the first frame update
     void Start()
     {
         _audioSource = GetComponent<AudioSource>();
         Time.timeScale = 1.0f;
+
+        CardFlip.Instance.OnFlipCard(1);
     }
 
     void Update()
@@ -136,4 +138,6 @@ public class GameManager : MonoBehaviour
         // 바꾼 시간을 시간판에 반영한다.
         TimeTxt.text = time.ToString("N2");
     }
+
+    
 }
