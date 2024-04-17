@@ -21,14 +21,23 @@ public class GameManager : MonoBehaviour
     public Card SecondCard;
     public int CardCount = 0;
 
-
     private int _matchingCardCount = 0;
     private int _cardMatchScore = 0;
     private float _timeScore = 0f;
     private float _finalScore = 0.0f;
 
-    float time = 0.0f;
+    // time를 public로 아에 빼냄
+    [Header ("시간 조정")]
+    [Tooltip("전체 시간 조정")]
+    [SerializeField] float time = 0.0f;
 
+    [Tooltip("보너스 시간 조정")]
+    [SerializeField] float PlusTime = 0.0f;
+
+    [Tooltip("패널티 시간 조정")]
+    [SerializeField] float FailTime = 0.0f;
+
+    [Header("오디오")]
     public AudioClip MatchClip;
     public AudioClip MatchFailClip;
     AudioSource _audioSource;
@@ -42,14 +51,17 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (time >= 30.0f)
+        if (time >= 0.0f)
         {
-            OverTime();
-            GameOver();
-            Time.timeScale = 0.0f;
+            time -= Time.deltaTime;
         }
 
-        time += Time.deltaTime;
+        else
+        {
+            GameOver();
+            OverTime();
+        }
+
         TimeTxt.text = time.ToString("N2");
     }
 
@@ -65,6 +77,7 @@ public class GameManager : MonoBehaviour
             FirstCard.OnDestroyCard();
             SecondCard.OnDestroyCard();
             CardCount -= 2;
+            time += PlusTime;
 
             TeamName.GetComponent<Text>().text = FirstCard.Name.ToString();       //켜준 텍스트 UI에 이미지에 맞는 팀원 이름 띄워주기
             _cardMatchScore += 5;
@@ -81,7 +94,8 @@ public class GameManager : MonoBehaviour
 
             FirstCard.OnCloseCard();
             SecondCard.OnCloseCard();
-            time += 5.0f;
+
+            time -= FailTime;
         }
         FirstCard = null;
         SecondCard = null;
@@ -116,8 +130,8 @@ public class GameManager : MonoBehaviour
 
     void OverTime()
     {
-        // 시간을 무조건 30초로 맞춘다
-        time = 30.00f;
+        // 시간을 무조건 0초로 맞춘다
+        time = 0.0f;
 
         // 바꾼 시간을 시간판에 반영한다.
         TimeTxt.text = time.ToString("N2");
