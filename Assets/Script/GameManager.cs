@@ -26,18 +26,21 @@ public class GameManager : MonoBehaviour
     private int _cardMatchScore = 0;
     private float _timeScore = 0f;
     private float _finalScore = 0.0f;
-
-    float time = 0.0f;
+    
+    
+    public float time = 0.0f;
 
     public AudioClip MatchClip;
     public AudioClip MatchFailClip;
     AudioSource _audioSource;
-
+  
     // Start is called before the first frame update
     void Start()
     {
         _audioSource = GetComponent<AudioSource>();
         Time.timeScale = 1.0f;
+
+        CardFlip.Instance.OnFlipCard(1);
     }
 
     void Update()
@@ -122,4 +125,6 @@ public class GameManager : MonoBehaviour
         // 바꾼 시간을 시간판에 반영한다.
         TimeTxt.text = time.ToString("N2");
     }
+
+    
 }
