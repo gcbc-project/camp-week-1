@@ -26,10 +26,11 @@ public class GameManager : MonoBehaviour
     private float _timeScore = 0f;
     private float _finalScore = 0.0f;
 
-    public float time = 0.0f;
+    // time를 public로 아에 빼냄
+    [SerializeField] float time = 0.0f;
 
-    public float plusTime = 5.0f;
-    public float failTime = 5.0f;
+    [SerializeField] float plusTime = 0.0f;
+    [SerializeField] float failTime = 0.0f;
 
     public AudioClip MatchClip;
     public AudioClip MatchFailClip;
