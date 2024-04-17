@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class EndGamePanel : MonoBehaviour
+public class GamePanel : MonoBehaviour
 {
     [Header("Stage")]
     [Tooltip("마지막 Stage인 경우 True 변경, 아닌 경우 False")]
@@ -17,6 +17,9 @@ public class EndGamePanel : MonoBehaviour
     [SerializeField] Image RetryBtn;
     [SerializeField] Image HomeBtn;
     [SerializeField] Image NextBtn;
+
+    [Header("Others")]
+    [SerializeField] GameObject OverlayPanel;
 
     void Start()
     {
@@ -50,5 +53,17 @@ public class EndGamePanel : MonoBehaviour
         {
             SceneManager.LoadScene(NextStageName);
         }
+    }
+    public void OnClickPauseBtn()
+    {
+        Time.timeScale = 0.0f;
+        gameObject.SetActive(true);
+        OverlayPanel.SetActive(true);
+    }
+    public void OnClickPlayBtn()
+    {
+        Time.timeScale = 1.0f;
+        gameObject.SetActive(false);
+        OverlayPanel.SetActive(false);
     }
 }
