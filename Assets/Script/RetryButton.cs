@@ -9,4 +9,9 @@ public class RetryBtn : MonoBehaviour
     {
         SceneManager.LoadScene("MainScene");
     }
+
+    public void OnEnterStageSelectScene()    // 스테이지 선택 씬으로 넘어가기
+    {
+        SceneManager.LoadScene("StageSelectScene");
+    }
 }
