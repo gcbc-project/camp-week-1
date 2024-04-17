@@ -45,7 +45,7 @@ public class GamePanel : MonoBehaviour
     }
     public void OnClickHomeBtn()
     {
-        SceneManager.LoadScene("StartScene");
+        SceneManager.LoadScene("StageSelectScene");
     }
     public void OnClickNextBtn()
     {
