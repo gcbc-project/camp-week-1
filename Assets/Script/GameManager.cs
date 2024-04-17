@@ -27,11 +27,17 @@ public class GameManager : MonoBehaviour
     private float _finalScore = 0.0f;
 
     // time를 public로 아에 빼냄
+    [Header ("시간 조정")]
+    [Tooltip("전체 시간 조정")]
     [SerializeField] float time = 0.0f;
 
+    [Tooltip("보너스 시간 조정")]
     [SerializeField] float PlusTime = 0.0f;
+
+    [Tooltip("패널티 시간 조정")]
     [SerializeField] float FailTime = 0.0f;
 
+    [Header("오디오")]
     public AudioClip MatchClip;
     public AudioClip MatchFailClip;
     AudioSource _audioSource;
