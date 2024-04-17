@@ -21,13 +21,15 @@ public class GameManager : MonoBehaviour
     public Card SecondCard;
     public int CardCount = 0;
 
-
     private int _matchingCardCount = 0;
     private int _cardMatchScore = 0;
     private float _timeScore = 0f;
     private float _finalScore = 0.0f;
 
-    float time = 0.0f;
+    public float time = 0.0f;
+
+    public float plusTime = 5.0f;
+    public float failTime = 5.0f;
 
     public AudioClip MatchClip;
     public AudioClip MatchFailClip;
@@ -36,7 +38,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartTime();
         _audioSource = GetComponent<AudioSource>();
         Time.timeScale = 1.0f;
     }
@@ -45,7 +46,7 @@ public class GameManager : MonoBehaviour
     {
         if (time >= 0.0f)
         {
-            GameTime();
+            time -= Time.deltaTime;
         }
 
         else
@@ -53,6 +54,7 @@ public class GameManager : MonoBehaviour
             GameOver();
             OverTime();
         }
+
         TimeTxt.text = time.ToString("N2");
     }
 
@@ -68,7 +70,7 @@ public class GameManager : MonoBehaviour
             FirstCard.OnDestroyCard();
             SecondCard.OnDestroyCard();
             CardCount -= 2;
-            BonusTime();
+            time += plusTime;
 
             TeamName.GetComponent<Text>().text = FirstCard.Name.ToString();       //켜준 텍스트 UI에 이미지에 맞는 팀원 이름 띄워주기
             _cardMatchScore += 5;
@@ -85,7 +87,8 @@ public class GameManager : MonoBehaviour
 
             FirstCard.OnCloseCard();
             SecondCard.OnCloseCard();
-            BonusTime();
+
+            time -= failTime;
         }
         FirstCard = null;
         SecondCard = null;
@@ -125,31 +128,5 @@ public class GameManager : MonoBehaviour
 
         // 바꾼 시간을 시간판에 반영한다.
         TimeTxt.text = time.ToString("N2");
-    }
-
-    // 시간 보너스, 패널티
-    public void BonusTime()
-    {
-        if (FirstCard.Index == SecondCard.Index)
-        {
-            time += 5.0f;
-        }
-
-        else 
-        {
-            time -= 5.0f;
-        }
-    }
-
-    // 시간 시작
-    public void StartTime()
-    {
-        time = 30.0f;
-    }
-
-    // 30 ~ 0으로
-    public void GameTime()
-    {
-        time -= Time.deltaTime;  // 프레임마다 시간 감소
     }
 }
