@@ -36,20 +36,23 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        StartTime();
         _audioSource = GetComponent<AudioSource>();
         Time.timeScale = 1.0f;
     }
 
     void Update()
     {
-        if (time >= 30.0f)
+        if (time >= 0.0f)
         {
-            OverTime();
-            GameOver();
-            Time.timeScale = 0.0f;
+            GameTime();
         }
 
-        time += Time.deltaTime;
+        else
+        {
+            GameOver();
+            OverTime();
+        }
         TimeTxt.text = time.ToString("N2");
     }
 
@@ -82,7 +85,7 @@ public class GameManager : MonoBehaviour
 
             FirstCard.OnCloseCard();
             SecondCard.OnCloseCard();
-            time += 5.0f;
+            BonusTime();
         }
         FirstCard = null;
         SecondCard = null;
@@ -117,19 +120,36 @@ public class GameManager : MonoBehaviour
 
     void OverTime()
     {
-        // 시간을 무조건 30초로 맞춘다
-        time = 30.00f;
+        // 시간을 무조건 0초로 맞춘다
+        time = 0.0f;
 
         // 바꾼 시간을 시간판에 반영한다.
         TimeTxt.text = time.ToString("N2");
     }
 
+    // 시간 보너스, 패널티
     public void BonusTime()
     {
         if (FirstCard.Index == SecondCard.Index)
+        {
+            time += 5.0f;
+        }
+
+        else 
         {
             time -= 5.0f;
         }
     }
 
+    // 시간 시작
+    public void StartTime()
+    {
+        time = 30.0f;
+    }
+
+    // 30 ~ 0으로
+    public void GameTime()
+    {
+        time -= Time.deltaTime;  // 프레임마다 시간 감소
+    }
 }
