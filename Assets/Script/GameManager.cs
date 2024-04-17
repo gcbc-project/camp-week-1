@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
             FirstCard.OnDestroyCard();
             SecondCard.OnDestroyCard();
             CardCount -= 2;
+            BonusTime();
 
             TeamName.GetComponent<Text>().text = FirstCard.Name.ToString();       //켜준 텍스트 UI에 이미지에 맞는 팀원 이름 띄워주기
             _cardMatchScore += 5;
@@ -122,4 +123,13 @@ public class GameManager : MonoBehaviour
         // 바꾼 시간을 시간판에 반영한다.
         TimeTxt.text = time.ToString("N2");
     }
+
+    public void BonusTime()
+    {
+        if (FirstCard.Index == SecondCard.Index)
+        {
+            time -= 5.0f;
+        }
+    }
+
 }
