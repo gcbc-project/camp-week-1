@@ -29,8 +29,8 @@ public class GameManager : MonoBehaviour
     // time를 public로 아에 빼냄
     [SerializeField] float time = 0.0f;
 
-    [SerializeField] float plusTime = 0.0f;
-    [SerializeField] float failTime = 0.0f;
+    [SerializeField] float PlusTime = 0.0f;
+    [SerializeField] float FailTime = 0.0f;
 
     public AudioClip MatchClip;
     public AudioClip MatchFailClip;
@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
             FirstCard.OnDestroyCard();
             SecondCard.OnDestroyCard();
             CardCount -= 2;
-            time += plusTime;
+            time += PlusTime;
 
             TeamName.GetComponent<Text>().text = FirstCard.Name.ToString();       //켜준 텍스트 UI에 이미지에 맞는 팀원 이름 띄워주기
             _cardMatchScore += 5;
@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
             FirstCard.OnCloseCard();
             SecondCard.OnCloseCard();
 
-            time -= failTime;
+            time -= FailTime;
         }
         FirstCard = null;
         SecondCard = null;
