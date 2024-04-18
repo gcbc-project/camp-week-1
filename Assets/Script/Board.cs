@@ -67,4 +67,6 @@ public class Board : MonoBehaviour
         }
         GameManager.Instance.CardCount = cardInfos.Length;
     }
+
+    
 }

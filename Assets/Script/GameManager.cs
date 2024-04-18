@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public Card FirstCard;
     public Card SecondCard;
     public int CardCount = 0;
+    [SerializeField]
     float _runningTime = 0.0f;
 
     private int _matchingCardCount = 0;
@@ -48,12 +49,19 @@ public class GameManager : MonoBehaviour
     public AudioClip MatchFailClip;
     AudioSource _audioSource;
 
+    GameObject cardManager;
+
+    CardReset cardReset;
+    bool isCardReset = false;
+
     // Start is called before the first frame update
     void Start()
     {
         _audioSource = GetComponent<AudioSource>();
         Time.timeScale = 1.0f;
 
+        cardManager = GameObject.Find("CardManager");
+        cardReset = cardManager.GetComponent<CardReset>();
         CardFlip.Instance.OnFlipCard(1);
         InitRunningTime();
     }
@@ -63,6 +71,13 @@ public class GameManager : MonoBehaviour
         if (_runningTime >= 0.0f)
         {
             _runningTime -= Time.deltaTime;
+            
+            if ((_runningTime < GameTime / 2) && !isCardReset)
+            {
+                cardReset.GetCardPosition();
+                isCardReset = true;
+            }
+                
         }
 
         else
