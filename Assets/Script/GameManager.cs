@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
 
     public Text TimeTxt;
     public GameObject TeamName; // 팀네임 텍스트 생성
+    public GameObject TransTime; // 시간 변화 표시
+
     public Card FirstCard;
     public Card SecondCard;
     public int CardCount = 0;
@@ -114,6 +116,9 @@ public class GameManager : MonoBehaviour
         _matchingCardCount++;
         TeamName.SetActive(true);  // 텍스트 UI 켜주기
 
+        SetRandomPositionForTransTime(); 
+        TransTime.SetActive(true);
+
         if (FirstCard != null && SecondCard != null)
 
             if (FirstCard.Index == SecondCard.Index)
@@ -127,6 +132,9 @@ public class GameManager : MonoBehaviour
                 _runningTime += PlusTime;
 
                 TeamName.GetComponent<Text>().text = FirstCard.Name.ToString();       //켜준 텍스트 UI에 이미지에 맞는 팀원 이름 띄워주기
+
+                TransTime.GetComponent<Text>().text = $"{PlusTime}초 증가"; // 시간초 증가 출력
+
                 _cardMatchScore += 5;
 
                 if (CardCount == 0)
@@ -143,6 +151,8 @@ public class GameManager : MonoBehaviour
                 _audioSource.PlayOneShot(MatchFailClip);
                 TeamName.GetComponent<Text>().text = "실패";      //켜준 텍스트 UI에 실패 문구 띄워주기
 
+                TransTime.GetComponent<Text>().text = $"{FailTime}초 감소";
+
                 FirstCard.OnCloseCard();
                 SecondCard.OnCloseCard();
 
@@ -154,6 +164,8 @@ public class GameManager : MonoBehaviour
         FirstCard = null;
         SecondCard = null;
         Invoke("OnClosedTeamName", 0.5f);   // 0.5초 동안 텍스트 UI를 보여준뒤 다시 UI꺼주기
+
+        Invoke("OnClosedTransTime", 0.5f); 
     }
 
     // 게임오버 함수를 밖으로 빼냄, 이를 통해 윗 구간에서 게임오버를 호출 할 수 있도록 바꿈
@@ -194,6 +206,25 @@ public class GameManager : MonoBehaviour
     {
         _runningTime = GameTime;
         GlobalTime = 0.0f;
+    }
+
+    public void OnClosedTransTime()  // 텍스트 UI를 꺼주기 위한 함수 생성
+    {
+        Debug.Log("시간 알림 껏당");
+        TransTime.SetActive(false);      // 텍스트 UI 꺼주기
+    }
+
+    // 랜덤 위치 생성
+    void SetRandomPositionForTransTime()
+    {
+        RectTransform rt = TransTime.GetComponent<RectTransform>();
+        if (rt != null)
+        {
+            // 무작위 위치 설정
+            float randomX = UnityEngine.Random.Range(-330.0f, 330f);  // X 범위 설정
+            float randomY = UnityEngine.Random.Range(295.0f, 590.0f);  // Y 범위 설정
+            rt.anchoredPosition = new Vector2(randomX, randomY);
+        }
     }
 
     // 카드 자동파괴 로직
