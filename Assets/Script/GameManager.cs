@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
 
     public Text TimeTxt;
     public GameObject TeamName; // 팀네임 텍스트 생성
+    public GameObject TransTime; // 시간 변화 표시
+
     public Card FirstCard;
     public Card SecondCard;
     public int CardCount = 0;
@@ -54,6 +56,7 @@ public class GameManager : MonoBehaviour
     [Header("오디오")]
     public AudioClip MatchClip;
     public AudioClip MatchFailClip;
+    public AudioClip AutoDestroySE;
     AudioSource _audioSource;
 
     [Header("난이도 조절")]
@@ -113,6 +116,9 @@ public class GameManager : MonoBehaviour
         _matchingCardCount++;
         TeamName.SetActive(true);  // 텍스트 UI 켜주기
 
+        SetRandomPositionForTransTime(); 
+        TransTime.SetActive(true);
+
         if (FirstCard != null && SecondCard != null)
 
             if (FirstCard.Index == SecondCard.Index)
@@ -126,6 +132,12 @@ public class GameManager : MonoBehaviour
                 _runningTime += PlusTime;
 
                 TeamName.GetComponent<Text>().text = FirstCard.Name.ToString();       //켜준 텍스트 UI에 이미지에 맞는 팀원 이름 띄워주기
+
+                TransTime.GetComponent<Text>().text = $"+{PlusTime}s"; // 시간초 증가 출력
+
+                Color MyColorBlue = new Color32(128, 206, 225, 255); // R, G, B, A
+                TransTime.GetComponent<Text>().color = MyColorBlue; // 시간초를 파랑으로 출력
+
                 _cardMatchScore += 5;
 
                 if (CardCount == 0)
@@ -142,6 +154,11 @@ public class GameManager : MonoBehaviour
                 _audioSource.PlayOneShot(MatchFailClip);
                 TeamName.GetComponent<Text>().text = "실패";      //켜준 텍스트 UI에 실패 문구 띄워주기
 
+                TransTime.GetComponent<Text>().text = $"-{FailTime}s";
+
+                Color MyColorYellow = new Color32(223, 216, 128, 255); // R, G, B, A
+                TransTime.GetComponent<Text>().color = MyColorYellow; // 시간초를 빨강으로 출력
+
                 FirstCard.OnCloseCard();
                 SecondCard.OnCloseCard();
 
@@ -153,6 +170,8 @@ public class GameManager : MonoBehaviour
         FirstCard = null;
         SecondCard = null;
         Invoke("OnClosedTeamName", 0.5f);   // 0.5초 동안 텍스트 UI를 보여준뒤 다시 UI꺼주기
+
+        Invoke("OnClosedTransTime", 0.5f); 
     }
 
     // 게임오버 함수를 밖으로 빼냄, 이를 통해 윗 구간에서 게임오버를 호출 할 수 있도록 바꿈
@@ -195,12 +214,32 @@ public class GameManager : MonoBehaviour
         GlobalTime = 0.0f;
     }
 
+    public void OnClosedTransTime()  // 텍스트 UI를 꺼주기 위한 함수 생성
+    {
+        TransTime.SetActive(false);      // 텍스트 UI 꺼주기
+    }
+
+    // 랜덤 위치 생성
+    void SetRandomPositionForTransTime()
+    {
+        RectTransform rt = TransTime.GetComponent<RectTransform>();
+        if (rt != null)
+        {
+            // 무작위 위치 설정
+            float randomX = UnityEngine.Random.Range(-122.0f, 160.0f);  // X 범위 설정
+            float randomY = UnityEngine.Random.Range(470.0f, 470.0f);  // Y 범위 설정
+            rt.anchoredPosition = new Vector2(randomX, randomY);
+        }
+    }
+
     // 카드 자동파괴 로직
     public void FindAndDestroyMatch()
     {
         _notMatchingCardCount++;
         if (SetCount > 0 && _notMatchingCardCount % SetCount == 0)
         {
+            _audioSource.PlayOneShot(AutoDestroySE);
+
             // 모든 카드를 비교해서 일치하는 쌍을 찾는다
             for (int i = Board.CardObject.Count - 1; i >= 0; i--)
             {
