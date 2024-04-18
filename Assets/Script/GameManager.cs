@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     [Header("난이도 조절")]
     [Tooltip("자동 파괴 배수 설정")]
     [SerializeField] int SetCount = 0;
-    
+
     GameObject cardManager;
 
     CardReset cardReset;
@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
                     isCardReset = true;
                 }
             }
-            
+
 
         }
 
@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
         _matchingCardCount++;
         TeamName.SetActive(true);  // 텍스트 UI 켜주기
 
-         if (FirstCard != null && SecondCard != null)
+        if (FirstCard != null && SecondCard != null)
 
             if (FirstCard.Index == SecondCard.Index)
             {
@@ -137,10 +137,10 @@ public class GameManager : MonoBehaviour
                 MatchedTime = GlobalTime;
 
             }
-        else//Not Matched
-        {
-            _audioSource.PlayOneShot(MatchFailClip);
-            TeamName.GetComponent<Text>().text = "실패";      //켜준 텍스트 UI에 실패 문구 띄워주기
+            else//Not Matched
+            {
+                _audioSource.PlayOneShot(MatchFailClip);
+                TeamName.GetComponent<Text>().text = "실패";      //켜준 텍스트 UI에 실패 문구 띄워주기
 
                 FirstCard.OnCloseCard();
                 SecondCard.OnCloseCard();
@@ -199,34 +199,34 @@ public class GameManager : MonoBehaviour
     public void FindAndDestroyMatch()
     {
         _notMatchingCardCount++;
-            if (SetCount > 0 && _notMatchingCardCount % SetCount == 0)
+        if (SetCount > 0 && _notMatchingCardCount % SetCount == 0)
+        {
+            // 모든 카드를 비교해서 일치하는 쌍을 찾는다
+            for (int i = Board.CardObject.Count - 1; i >= 0; i--)
             {
-                // 모든 카드를 비교해서 일치하는 쌍을 찾는다
-                for (int i = Board.CardObject.Count - 1; i >= 0; i--)
+                for (int j = i - 1; j >= 0; j--)
                 {
-                    for (int j = i - 1; j >= 0; j--)
+                    // 리스트크기를 줄이는 대신, 리스트 내에서 null 값이 아닌 것을 찾아서 삭제 함,
+                    if (Board.CardObject[i] != null && Board.CardObject[j] != null)
                     {
-                        // 리스트크기를 줄이는 대신, 리스트 내에서 null 값이 아닌 것을 찾아서 삭제 함,
-                        if (Board.CardObject[i] != null && Board.CardObject[j] != null)
+                        Card firstCard = Board.CardObject[i];
+                        Card SecondCard = Board.CardObject[j];
+
+                        if (firstCard != null && SecondCard != null && firstCard.Index == SecondCard.Index)
                         {
-                            Card firstCard = Board.CardObject[i].GetComponent<Card>();
-                            Card SecondCard = Board.CardObject[j].GetComponent<Card>();
+                            firstCard.OnDestroyCard();
+                            SecondCard.OnDestroyCard();
 
-                            if (firstCard != null && SecondCard != null && firstCard.Index == SecondCard.Index)
-                            {
-                                firstCard.OnDestroyCard();
-                                SecondCard.OnDestroyCard();
+                            Board.CardObject.RemoveAt(i);
+                            Board.CardObject.RemoveAt(j); // i와 j를 제거
 
-                                Board.CardObject.RemoveAt(i);
-                                Board.CardObject.RemoveAt(j); // i와 j를 제거
-
-                                CardCount -= 2;
-                                return;
-                            }
+                            CardCount -= 2;
+                            return;
                         }
                     }
                 }
             }
-        
+        }
+
     }
 }

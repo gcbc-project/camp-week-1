@@ -6,7 +6,7 @@ using System.Linq;
 
 public class CardReset : MonoBehaviour
 {
-    List<GameObject> _cardArr = new List<GameObject>();
+    List<Card> _cardArr = new List<Card>();
     Vector3[] _cardOriginalPositions;
 
     public void GetCardPosition()
@@ -40,7 +40,7 @@ public class CardReset : MonoBehaviour
         {
             int k = UnityEngine.Random.Range(0, n);
             n--;
-            GameObject temp = _cardArr[n];
+            Card temp = _cardArr[n];
             _cardArr[n] = _cardArr[k];
             _cardArr[k] = temp;
         }
@@ -48,7 +48,7 @@ public class CardReset : MonoBehaviour
         //move cards
         for (int i = 0; i < _cardArr.Count; i++)
         {
-            // ÀÌµ¿ÇÏ±â Àü¿¡ Ä«µåÀÇ ÃÊ±â À§Ä¡·Î µÇµ¹¸²
+            // ï¿½Ìµï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Çµï¿½ï¿½ï¿½
             _cardArr[i].transform.position = _cardOriginalPositions[i];
         }
     }

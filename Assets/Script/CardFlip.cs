@@ -11,7 +11,7 @@ public class CardFlip : MonoBehaviour
 
     [SerializeField] private float CardFlipTime = 2.0f;
     [SerializeField] private int CanCardFlipNum = 5;
-    List<GameObject> _cardObjects = new List<GameObject>();
+    List<Card> _cardObjects = new List<Card>();
 
     void Awake()
     {
@@ -46,14 +46,12 @@ public class CardFlip : MonoBehaviour
             CanCardFlipNum--;
 
         _cardObjects = Board.CardObject.Where(card => card != null).ToList();
-        
+
         _cardNum = new Card[_cardObjects.Count];
 
         for (int i = 0; i < _cardObjects.Count; i++)
         {
-            Card cardComponent = _cardObjects[i].GetComponent<Card>();
-
-            _cardNum[i] = cardComponent;
+            _cardNum[i] = _cardObjects[i];
         }
         OnAllCardFlipFront(state);
     }

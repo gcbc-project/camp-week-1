@@ -287,52 +287,6 @@ MonoBehaviour:
   TimeTxtAnim: {fileID: 304629068}
   StartColor: {r: 0.3529412, g: 0.3529412, b: 0.88235295, a: 0}
   EndColor: {r: 0.9254902, g: 0.38431373, b: 0.38431373, a: 0}
---- !u!1 &372761449
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 372761451}
-  - component: {fileID: 372761450}
-  m_Layer: 0
-  m_Name: AllCardFlip
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &372761450
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 372761449}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bd9ce3c157e109478d463b2ab704a03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CardFlipTime: 2
-  CanCardFlipNum: 5
---- !u!4 &372761451
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 372761449}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -600,6 +554,65 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5925374811904925478, guid: 6bdac45094a96924ca2b5197f67b6f3f, type: 3}
   m_PrefabInstance: {fileID: 1221556905}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1084693185
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1084693188}
+  - component: {fileID: 1084693187}
+  - component: {fileID: 1084693186}
+  m_Layer: 0
+  m_Name: CardManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1084693186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1084693185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bd9ce3c157e109478d463b2ab704a03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CardFlipTime: 2
+  CanCardFlipNum: 5
+--- !u!114 &1084693187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1084693185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2005d410be9297846a2b44037f1f76aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1084693188
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1084693185}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 166.13373, y: 787.9636, z: -9.697152}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1221556905
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -608,6 +621,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1420866839}
     m_Modifications:
+    - target: {fileID: 5302941136169862781, guid: 6bdac45094a96924ca2b5197f67b6f3f, type: 3}
+      propertyPath: NextStageName
+      value: StageLevel2
+      objectReference: {fileID: 0}
     - target: {fileID: 5925374811904925478, guid: 6bdac45094a96924ca2b5197f67b6f3f, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -862,9 +879,8 @@ MonoBehaviour:
   FailTime: 5
   MatchClip: {fileID: 8300000, guid: e7318f2cab5dcc2449c8db817a86b897, type: 3}
   MatchFailClip: {fileID: 8300000, guid: 70eb99c7eb403984597b19757a643a6f, type: 3}
-  isEasy: 1
   SetCount: 3
-  AllCards: []
+  IsCardSuffle: 1
 --- !u!82 &1592293116
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1068,4 +1084,4 @@ SceneRoots:
   - {fileID: 587666593}
   - {fileID: 1592293114}
   - {fileID: 115433828}
-  - {fileID: 372761451}
+  - {fileID: 1084693188}

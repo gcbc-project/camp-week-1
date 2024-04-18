@@ -7,15 +7,15 @@ public class Hint : MonoBehaviour
 {
     public Animator HintAnim;
 
-    [SerializeField] private float MatchTimeout = 5f; //¼º°ø ¸ÅÄªÀÌ ¾ø´Â ½Ã°£
+    [SerializeField] private float MatchTimeout = 5f; //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Äªï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
     private float activeHintTime = 0.0f;
     private bool isHint = false;
-    private GameManager _gameManager; //°ÔÀÓ¸Å´ÏÀú¿¡ Á¢±ÙÇÏ±â À§ÇÑ º¯¼ö
+    private GameManager _gameManager; //ï¿½ï¿½ï¿½Ó¸Å´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     // Start is called before the first frame update
     void Start()
     {
-        _gameManager = GetComponent<GameManager>();//°ÔÀÓ¸Å´ÏÀú Ã£±â
+        _gameManager = GetComponent<GameManager>();//ï¿½ï¿½ï¿½Ó¸Å´ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½
     }
 
     // Update is called once per frame
@@ -24,7 +24,7 @@ public class Hint : MonoBehaviour
         float time = _gameManager.GlobalTime;
         //_lastMatchTime = _gameManager.MatchedTime;
 
-        // CardCount°¡ º¯È­ÇÏÁö ¾ÊÀº °æ¿ì
+        // CardCountï¿½ï¿½ ï¿½ï¿½È­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         if (time - _gameManager.MatchedTime >= MatchTimeout && time - activeHintTime >= MatchTimeout && isHint == false)
         {
             //_iastCardCountChangeTime = Time.time;
@@ -41,37 +41,18 @@ public class Hint : MonoBehaviour
     {
         Board.CardObject = Board.CardObject.Where(card => card != null).ToList();
 
-        int randomIdx = Random.Range(0, Board.CardObject.Count); // Board.CardObject ¸®½ºÆ®ÀÇ ÀÎµ¦½º Áß ÇÏ³ª¸¦ ¹«ÀÛÀ§·Î ¼±ÅÃ
+        int randomIdx = Random.Range(0, Board.CardObject.Count); // Board.CardObject ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-        int tempCardIdx = Board.CardObject[randomIdx].GetComponent<Card>().Index; //1°³ÀÇ ÀÎµ¦½º°¡ µé¾î°£ Ä«µå ÀÎµ¦½º¸¦ °¡Á®¿È
+        int tempCardIdx = Board.CardObject[randomIdx].Index; //1ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½î°£ Ä«ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-        List<GameObject> cardList = Board.CardObject.Where(card => card.GetComponent<Card>().Index == tempCardIdx).ToList(); //·£´ýÀ¸·Î »ÌÀº °°Àº °ªÀÇ ÀÎµ¦½º Ä«µå 2°³¸¦ °¡Á®¿È
+        List<Card> cardList = Board.CardObject.Where(card => card.Index == tempCardIdx).ToList(); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ Ä«ï¿½ï¿½ 2ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
         Color rColor = new Color(Random.value, Random.value, Random.value);
 
-        cardList.ForEach(card => {
-            card.GetComponent<Card>().TwinckleColor = rColor;
-            card.GetComponent<Animator>().SetBool("isHint", true);
+        cardList.ForEach(card =>
+        {
+            card.TwinckleColor = rColor;
+            card.CardAnim.SetBool("isHint", true);
         });
-
-
-
-        //randomIdx ¹®Á¦°¡ ÇØ°áµÇ¸é
-        /*if(randomIdx == 2¹øÂ° ¼±ÅÃµÈ °Í){ //Board.CardObject _id
-            ÇØ´ç Ä«µå¿¡ HintAnim.SetBool("isHint", true); Àû¿ë
-        } else {
-            2¹øÂ° ¼±ÅÃµÈ °Í ´Ù½Ã ¼±ÅÃÇÏ±â
-        }
-        
-         */
-
-
-
-        /*        GameObject randomCard = Board.CardObject[randomIdx]; // ¼±ÅÃµÈ ¹«ÀÛÀ§ Ä«µå ¿ÀºêÁ§Æ®
-
-                // ¼±ÅÃµÈ Ä«µå ¿ÀºêÁ§Æ®¿¡ ¾Ö´Ï¸ÞÀÌ¼ÇÀ» ½ÇÇàÇÏ´Â ÄÚµå¸¦ ¿©±â¿¡ ÀÛ¼º
-                randomCard.GetComponent<Animator>().SetBool("isHint", true);*/
     }
-
-
 }
