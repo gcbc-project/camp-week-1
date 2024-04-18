@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
     [Header("오디오")]
     public AudioClip MatchClip;
     public AudioClip MatchFailClip;
+    public AudioClip AutoDestroySE;
     AudioSource _audioSource;
 
     [Header("난이도 조절")]
@@ -201,6 +202,8 @@ public class GameManager : MonoBehaviour
         _notMatchingCardCount++;
         if (SetCount > 0 && _notMatchingCardCount % SetCount == 0)
         {
+            _audioSource.PlayOneShot(AutoDestroySE);
+
             // 모든 카드를 비교해서 일치하는 쌍을 찾는다
             for (int i = Board.CardObject.Count - 1; i >= 0; i--)
             {
