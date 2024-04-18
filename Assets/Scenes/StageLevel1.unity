@@ -813,6 +813,7 @@ GameObject:
   - component: {fileID: 1592293114}
   - component: {fileID: 1592293115}
   - component: {fileID: 1592293116}
+  - component: {fileID: 1592293117}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -852,13 +853,18 @@ MonoBehaviour:
   FirstCard: {fileID: 0}
   SecondCard: {fileID: 0}
   CardCount: 0
+  MatchedTime: 0
+  GlobalTime: 0
   StageLevel: 1
   GameOverPanel: {fileID: 896565161}
-  GameTime: 60
+  GameTime: 90
   PlusTime: 5
   FailTime: 5
   MatchClip: {fileID: 8300000, guid: e7318f2cab5dcc2449c8db817a86b897, type: 3}
   MatchFailClip: {fileID: 8300000, guid: 70eb99c7eb403984597b19757a643a6f, type: 3}
+  isEasy: 1
+  SetCount: 3
+  AllCards: []
 --- !u!82 &1592293116
 AudioSource:
   m_ObjectHideFlags: 0
@@ -955,6 +961,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1592293117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592293113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48672001f994b794db350fc63ba85731, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HintAnim: {fileID: 2815179162458057485, guid: bfc802e884cfb6345a98ad2ab230211d, type: 3}
+  MatchTimeout: 5
 --- !u!224 &1832214991 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4445918752866293664, guid: 01ad1c2d8f33ad948900120ada89951a, type: 3}
