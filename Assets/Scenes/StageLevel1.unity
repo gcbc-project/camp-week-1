@@ -880,7 +880,7 @@ MonoBehaviour:
   MatchClip: {fileID: 8300000, guid: e7318f2cab5dcc2449c8db817a86b897, type: 3}
   MatchFailClip: {fileID: 8300000, guid: 70eb99c7eb403984597b19757a643a6f, type: 3}
   SetCount: 3
-  IsCardSuffle: 1
+  IsCardSuffle: 0
 --- !u!82 &1592293116
 AudioSource:
   m_ObjectHideFlags: 0
