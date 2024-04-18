@@ -2,31 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class CardReset : MonoBehaviour
 {
-    GameObject[] cardArr;
-    Vector3[] cardOriginalPositions;
+    List<GameObject> _cardArr = new List<GameObject>();
+    Vector3[] _cardOriginalPositions;
 
     public void GetCardPosition()
     {
         CardFlip.Instance.FindAllCard(3);
 
-        cardArr = new GameObject[CardFlip.Instance.CardObjects.Length];
+        _cardArr = Board.CardObject.Where(card => card != null).ToList();
 
-        Array.Copy(CardFlip.Instance.CardObjects, cardArr, CardFlip.Instance.CardObjects.Length);
-        
-        cardOriginalPositions = new Vector3[cardArr.Length];
-        for (int i = 0; i < cardArr.Length; i++)
+        _cardOriginalPositions = new Vector3[_cardArr.Count];
+        for (int i = 0; i < _cardArr.Count; i++)
         {
-            cardOriginalPositions[i] = cardArr[i].transform.position;
+            _cardOriginalPositions[i] = _cardArr[i].transform.position;
         }
 
         //all cards move to center
         Vector3 centerPos = new Vector3(0, -1.5f, 0);
-        for (int i = 0; i < cardArr.Length; i++)
-        {           
-            cardArr[i].transform.position = centerPos;
+        for (int i = 0; i < _cardArr.Count; i++)
+        {
+            _cardArr[i].transform.position = centerPos;
         }
 
         Invoke("OnCardShuffle", 0.2f);
@@ -36,21 +35,21 @@ public class CardReset : MonoBehaviour
     private void OnCardShuffle()
     {
         //arr shuffle logic
-        int n = cardArr.Length;
+        int n = _cardArr.Count;
         while (n > 1)
         {
             int k = UnityEngine.Random.Range(0, n);
             n--;
-            GameObject temp = cardArr[n];
-            cardArr[n] = cardArr[k];
-            cardArr[k] = temp;
+            GameObject temp = _cardArr[n];
+            _cardArr[n] = _cardArr[k];
+            _cardArr[k] = temp;
         }
 
         //move cards
-        for (int i = 0; i < cardArr.Length; i++)
+        for (int i = 0; i < _cardArr.Count; i++)
         {
             // 이동하기 전에 카드의 초기 위치로 되돌림
-            cardArr[i].transform.position = cardOriginalPositions[i];
+            _cardArr[i].transform.position = _cardOriginalPositions[i];
         }
     }
 
