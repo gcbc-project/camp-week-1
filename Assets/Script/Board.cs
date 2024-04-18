@@ -29,14 +29,7 @@ public class Board : MonoBehaviour
     // 3*6 4*6 5*6
     public GameObject Card;
     public int BoardX = 3;
-    void Start()
-    {
-        int cardAmount = BoardX * 6;
-        int numRows = 6;
-        float cardSpacing = 1.1f;
-        float cardYSpacing = 2.0f;
-
-        CardInfo[] cardInfos = {new CardInfo(0, "박재민"), new CardInfo(0, "박재민"),
+    public CardInfo[] cardInfos = {new CardInfo(0, "박재민"), new CardInfo(0, "박재민"),
         new CardInfo(1, "이종윤"),new CardInfo(1, "이종윤"),
         new CardInfo(2, "박재민"),new CardInfo(2, "박재민"),
         new CardInfo(3, "김태형"),new CardInfo(3, "김태형"),
@@ -52,6 +45,17 @@ public class Board : MonoBehaviour
         new CardInfo(13, "이인호"),new CardInfo(13, "이인호"),
         new CardInfo(14, "김태형"),new CardInfo(14, "김태형")};
 
+    public static List<Card> CardObject = new List<Card>();
+
+    void Start()
+    {
+        CardObject = new List<Card>();
+
+        int cardAmount = BoardX * 6;
+        int numRows = 6;
+        float cardSpacing = 1.1f;
+        float cardYSpacing = 2.0f;
+
         cardInfos = cardInfos.Skip(0).Take(cardAmount).ToArray();
         cardInfos = cardInfos.OrderBy(x => Random.Range(0f, cardAmount / 2 - 1)).ToArray();
 
@@ -64,6 +68,8 @@ public class Board : MonoBehaviour
 
             tempCard.transform.position = new Vector2(x, y);
             tempCard.GetComponent<Card>().OnCardSetting(cardInfos[i]);
+
+            CardObject.Add(tempCard.GetComponent<Card>());
         }
         GameManager.Instance.CardCount = cardInfos.Length;
     }

@@ -10,6 +10,7 @@ public class Card : MonoBehaviour
     public SpriteRenderer CardImage;
     public GameObject Front;
     public GameObject Back;
+    public Color TwinckleColor;
 
     public AudioClip FlipClip;
 
@@ -34,9 +35,7 @@ public class Card : MonoBehaviour
     {
         _audioSource.PlayOneShot(FlipClip);
 
-        CardAnim.SetBool("isOpen", true);
-        transform.Find("Front").gameObject.SetActive(true);
-        transform.Find("Back").gameObject.SetActive(false);
+        OnCardFlipFront();
 
         if (!_isFlip)
         {
@@ -63,11 +62,23 @@ public class Card : MonoBehaviour
         Invoke("OnCloseCardInvoke", 1.0f);
     }
 
-    void OnCloseCardInvoke()//ī�带 �ٽ� ������
+    public void OnCloseCardInvoke()//ī�带 �ٽ� ������
     {
         CardAnim.SetBool("isOpen", false);
         transform.Find("Front").gameObject.SetActive(false);
         transform.Find("Back").gameObject.SetActive(true);
     }
 
+    public void OnCardFlipFront()
+    {
+        CardAnim.SetBool("isOpen", true);
+        transform.Find("Front").gameObject.SetActive(true);
+        transform.Find("Back").gameObject.SetActive(false);
+    }
+
+   //카드 색상 랜덤 변경
+   public void ChangeRandomColor()
+    { 
+        _cardBackSprite.color = TwinckleColor;
+    }
 }
