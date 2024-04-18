@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     [Header("Stage")]
     [Tooltip("현재 Stage Level 입력")]
     [SerializeField] int StageLevel;
+
     // time를 public로 아에 빼냄
     [Header("게임 종료")]
     [Tooltip("GameOverPanel Prefab을 넣는다")]
@@ -54,7 +55,6 @@ public class GameManager : MonoBehaviour
     AudioSource _audioSource;
 
     [Header("난이도 조절")]
-    [SerializeField] bool isEasy = false;
     [Tooltip("자동 파괴 배수 설정")]
     [SerializeField] int SetCount = 0;
 
@@ -177,16 +177,14 @@ public class GameManager : MonoBehaviour
     public void FindAndDestroyMatch()
     {
         _notMatchingCardCount++;
-      
-        if (isEasy == true)
-        {
-            if (_notMatchingCardCount % SetCount == 0)
+            if (SetCount > 0 && _notMatchingCardCount % SetCount == 0)
             {
                 // 모든 카드를 비교해서 일치하는 쌍을 찾는다
                 for (int i = Board.CardObject.Count - 1; i >= 0; i--)
                 {
                     for (int j = i - 1; j >= 0; j--)
                     {
+                        // 리스트크기를 줄이는 대신, 리스트 내에서 null 값이 아닌 것을 찾아서 삭제 함,
                         if (Board.CardObject[i] != null && Board.CardObject[j] != null)
                         {
                             Card firstCard = Board.CardObject[i].GetComponent<Card>();
@@ -198,17 +196,15 @@ public class GameManager : MonoBehaviour
                                 SecondCard.OnDestroyCard();
 
                                 Board.CardObject.RemoveAt(i);
-                                Board.CardObject.RemoveAt(j); // 이렇게 제거하면 리스트 인덱스 문제가 발생할 수 있으므로 주의가 필요합니다.
+                                Board.CardObject.RemoveAt(j); // i와 j를 제거
 
                                 CardCount -= 2;
                                 return;
                             }
                         }
-
-
                     }
                 }
             }
-        }
+        
     }
 }
