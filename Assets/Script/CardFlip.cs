@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CardFlip : MonoBehaviour
@@ -7,10 +8,10 @@ public class CardFlip : MonoBehaviour
     public static CardFlip Instance;
 
     private Card[] _cardNum;
-    [SerializeField]
-    private float CardFlipTime = 2.0f;
-    [SerializeField]
-    private int CanCardFlipNum = 5;
+
+    [SerializeField] private float CardFlipTime = 2.0f;
+    [SerializeField] private int CanCardFlipNum = 5;
+    List<GameObject> _cardObjects = new List<GameObject>();
 
     void Awake()
     {
@@ -30,32 +31,30 @@ public class CardFlip : MonoBehaviour
                 else
                     FindAllCard(state);
                 break;
+            case 3:
+                FindAllCard(state);
+                break;
         }
     }
 
-    void FindAllCard(int state)
+    public void FindAllCard(int state)
     {
-        //���� ���۰� ���ÿ� ����Ǹ� TimeTxt�� ��Ȱ��ȭ�� ī�尡 �ٽ� ���������� Ȱ��ȭ
+
         if (state == 1)
             GameManager.Instance.TimeTxt.gameObject.SetActive(false);
-        if (state == 2)
+        else if (state == 2)
             CanCardFlipNum--;
 
+        _cardObjects = Board.CardObject.Where(card => card != null).ToList();
+        
+        _cardNum = new Card[_cardObjects.Count];
 
-        //Scene���� �����Ǿ��ִ� Card�� ��� �迭�� �Ҵ�       
-        GameObject[] cardObjects = GameObject.FindGameObjectsWithTag("Card");
-
-        //�迭�� ũ�⸦ ī���� ������ ����
-        _cardNum = new Card[cardObjects.Length];
-
-        //ī�� ������Ʈ���� ī�� ������Ʈ�� _cardNum�迭�� ����
-        for (int i = 0; i < cardObjects.Length; i++)
+        for (int i = 0; i < _cardObjects.Count; i++)
         {
-            Card cardComponent = cardObjects[i].GetComponent<Card>();
+            Card cardComponent = _cardObjects[i].GetComponent<Card>();
 
             _cardNum[i] = cardComponent;
         }
-        //ī�� �ո����� ������
         OnAllCardFlipFront(state);
     }
     void OnAllCardFlipFront(int state)
@@ -64,7 +63,6 @@ public class CardFlip : MonoBehaviour
         {
             _cardNum[i].OnCardFlipFront();
         }
-        //���� ���۰� ���ÿ� ����Ǹ� TimeTxt�� ��Ȱ��ȭ�� ī�尡 �ٽ� ���������� Ȱ��ȭ
         if (state == 1)
             Invoke("TimeTextActive", CardFlipTime);
         Invoke("OnAllCardFlipBack", CardFlipTime);

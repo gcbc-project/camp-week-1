@@ -18,8 +18,10 @@ public class GameManager : MonoBehaviour
     public Card FirstCard;
     public Card SecondCard;
     public int CardCount = 0;
+
     public float MatchedTime = 0.0f; //매칭된 시간 저장용
     public float GlobalTime = 0.0f; //게임의 절대 시간
+
     float _runningTime = 0.0f;
 
     private int _matchingCardCount = 0;
@@ -57,6 +59,13 @@ public class GameManager : MonoBehaviour
     [Header("난이도 조절")]
     [Tooltip("자동 파괴 배수 설정")]
     [SerializeField] int SetCount = 0;
+    
+    GameObject cardManager;
+
+    CardReset cardReset;
+    bool isCardReset = false;
+    [Header("카드 셔플 여부")]
+    [SerializeField] bool IsCardSuffle = true;
 
     // Start is called before the first frame update
     void Start()
@@ -64,6 +73,8 @@ public class GameManager : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         Time.timeScale = 1.0f;
 
+        cardManager = GameObject.Find("CardManager");
+        cardReset = cardManager.GetComponent<CardReset>();
         CardFlip.Instance.OnFlipCard(1);
         InitRunningTime();
     }
@@ -74,6 +85,17 @@ public class GameManager : MonoBehaviour
         {
             _runningTime -= Time.deltaTime;
             GlobalTime += Time.deltaTime;
+
+            if (IsCardSuffle)
+            {
+                if ((_runningTime < GameTime / 2) && !isCardReset)
+                {
+                    cardReset.GetCardPosition();
+                    isCardReset = true;
+                }
+            }
+            
+
         }
 
         else
