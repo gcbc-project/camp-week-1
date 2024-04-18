@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
 
     private int _matchingCardCount = 0;
 
-    private int _trueMatchingCardCount = 0;
     private int _notMatchingCardCount = 0; // 실패 횟 수
 
     private int _cardMatchScore = 0;
@@ -129,10 +128,6 @@ public class GameManager : MonoBehaviour
 
                 TeamName.GetComponent<Text>().text = FirstCard.Name.ToString();       //켜준 텍스트 UI에 이미지에 맞는 팀원 이름 띄워주기
                 _cardMatchScore += 5;
-
-                //매칭 성공 횟수 카운트
-                _trueMatchingCardCount++;
-                Debug.Log("성공 횟 수" + _trueMatchingCardCount);
 
                 if (CardCount == 0)
                 {
