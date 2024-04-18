@@ -22,16 +22,20 @@ public class CardReset : MonoBehaviour
         }
 
         //all cards move to center
-        Vector3 centerPos = new Vector3(0, -1.5f, 0);
-        for (int i = 0; i < _cardArr.Count; i++)
-        {
-            _cardArr[i].transform.position = centerPos;
-        }
+        PlayMoveCenterAnimation();
 
         Invoke("OnCardShuffle", 0.2f);
-
-
     }
+    void PlayMoveCenterAnimation()
+    {        
+        Vector3 centerPos = new Vector3(0, -1.5f, 0);
+        for (int i = 0; i < _cardOriginalPositions.Length; i++)
+        {
+            _cardArr[i].transform.position = centerPos;
+            _cardArr[i].CardAnim.SetBool("isMoveCenter", true);
+        }
+    }
+
     private void OnCardShuffle()
     {
         //arr shuffle logic
