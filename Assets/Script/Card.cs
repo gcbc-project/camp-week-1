@@ -10,6 +10,7 @@ public class Card : MonoBehaviour
     public SpriteRenderer CardImage;
     public GameObject Front;
     public GameObject Back;
+    public Color TwinckleColor;
 
     public AudioClip FlipClip;
 
@@ -75,5 +76,9 @@ public class Card : MonoBehaviour
         transform.Find("Back").gameObject.SetActive(false);
     }
 
-   
+   //카드 색상 랜덤 변경
+   public void ChangeRandomColor()
+    { 
+        _cardBackSprite.color = TwinckleColor;
+    }
 }
