@@ -58,10 +58,6 @@ public class GameManager : MonoBehaviour
     [Tooltip("자동 파괴 배수 설정")]
     [SerializeField] int SetCount = 0;
 
-
-    public List<Card> AllCards = new List<Card>(); // 카드 배열 저장
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -70,21 +66,7 @@ public class GameManager : MonoBehaviour
 
         CardFlip.Instance.OnFlipCard(1);
         InitRunningTime();
-
     }
-
-
-    //모든 카드의 배열을 저장한다. 밑에 배열하면 오류가 발생해서 부득이하게 위로 올림
-    public void RegisterCard(Card card)
-    {
-        if (!AllCards.Contains(card))
-        {
-            AllCards.Add(card);
-        }
-    }
-
-
-
 
     void Update()
     {
@@ -114,11 +96,6 @@ public class GameManager : MonoBehaviour
             if (FirstCard.Index == SecondCard.Index)
             {
                 _audioSource.PlayOneShot(MatchClip);
-
-
-                // Allcard에서 firstcard와 SecondCard가 삭제되도록 바꾼다.
-                AllCards.Remove(FirstCard);
-                AllCards.Remove(SecondCard);
 
                 FirstCard.OnDestroyCard();
                 SecondCard.OnDestroyCard();
@@ -206,27 +183,29 @@ public class GameManager : MonoBehaviour
             if (_notMatchingCardCount % SetCount == 0)
             {
                 // 모든 카드를 비교해서 일치하는 쌍을 찾는다
-                for (int i = AllCards.Count - 1; i >= 0; i--)
+                for (int i = Board.CardObject.Count - 1; i >= 0; i--)
                 {
                     for (int j = i - 1; j >= 0; j--)
                     {
-                        if (AllCards[i].Index == AllCards[j].Index)
+                        if (Board.CardObject[i] != null && Board.CardObject[j] != null)
                         {
-                            Card tempI = AllCards[i];
-                            Card tempJ = AllCards[j];
+                            Card firstCard = Board.CardObject[i].GetComponent<Card>();
+                            Card SecondCard = Board.CardObject[j].GetComponent<Card>();
 
-                            AllCards.Remove(tempI);
-                            AllCards.Remove(tempJ); // tempi,j를 지운다.
-                            
-                            tempI.OnDestroyCard();
-                            tempJ.OnDestroyCard();
+                            if (firstCard != null && SecondCard != null && firstCard.Index == SecondCard.Index)
+                            {
+                                firstCard.OnDestroyCard();
+                                SecondCard.OnDestroyCard();
 
-                            tempI = null; // 참조 제거
-                            tempJ = null; // 참조 제거
+                                Board.CardObject.RemoveAt(i);
+                                Board.CardObject.RemoveAt(j); // 이렇게 제거하면 리스트 인덱스 문제가 발생할 수 있으므로 주의가 필요합니다.
 
-                            CardCount -= 2;
-                            return;
+                                CardCount -= 2;
+                                return;
+                            }
                         }
+
+
                     }
                 }
             }

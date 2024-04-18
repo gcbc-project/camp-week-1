@@ -22,8 +22,6 @@ public class Card : MonoBehaviour
     {
         _audioSource = GetComponent<AudioSource>();
         _cardBackSprite = Back.GetComponent<SpriteRenderer>();
-
-        GameManager.Instance.RegisterCard(this); // 모든 카드를 시작시 한번 초기화 및 저장
     }
 
     public void OnCardSetting(CardInfo cardInfo)//ī�� �迭 ����
