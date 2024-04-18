@@ -85,17 +85,17 @@ public class GamePanel : MonoBehaviour
     {
         MatchScoreTxt.text = matchCount.ToString();
         CurrentScoreTxt.text = currentScore.ToString();
-
-        if (PlayerPrefs.HasKey("BestScore"))
+        string bestScoreKey = "Stage" + currentStageLevel + "BestScore";
+        if (PlayerPrefs.HasKey(bestScoreKey))
         {
-            int prevBest = PlayerPrefs.GetInt("BestScore");
+            int prevBest = PlayerPrefs.GetInt(bestScoreKey);
             int currentBest = Math.Max(prevBest, currentScore);
-            PlayerPrefs.SetInt("BestScore", currentBest);
+            PlayerPrefs.SetInt(bestScoreKey, currentBest);
             BestScoreTxt.text = currentBest.ToString();
         }
         else
         {
-            PlayerPrefs.SetInt("BestScore", currentScore);
+            PlayerPrefs.SetInt(bestScoreKey, currentScore);
             BestScoreTxt.text = currentScore.ToString();
         }
 
