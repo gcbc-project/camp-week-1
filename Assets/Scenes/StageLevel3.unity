@@ -1175,7 +1175,7 @@ MonoBehaviour:
   FailTime: 5
   MatchClip: {fileID: 8300000, guid: e7318f2cab5dcc2449c8db817a86b897, type: 3}
   MatchFailClip: {fileID: 8300000, guid: 70eb99c7eb403984597b19757a643a6f, type: 3}
-  AutoDestroySE: {fileID: 0}
+  AutoDestroySE: {fileID: 8300000, guid: b99da9a57308d4ba1bee1cf1d9038376, type: 3}
   SetCount: 0
   IsCardSuffle: 1
 --- !u!82 &1592293116
