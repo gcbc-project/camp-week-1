@@ -56,6 +56,8 @@ public class GameManager : MonoBehaviour
 
     CardReset cardReset;
     bool isCardReset = false;
+    [Header("카드 셔플 여부")]
+    [SerializeField] bool IsCardSuffle = true;
 
     // Start is called before the first frame update
     void Start()
@@ -76,11 +78,15 @@ public class GameManager : MonoBehaviour
             _runningTime -= Time.deltaTime;
             GlobalTime += Time.deltaTime;
 
-            if ((_runningTime < GameTime / 2) && !isCardReset)
+            if (IsCardSuffle)
             {
-                cardReset.GetCardPosition();
-                isCardReset = true;
+                if ((_runningTime < GameTime / 2) && !isCardReset)
+                {
+                    cardReset.GetCardPosition();
+                    isCardReset = true;
+                }
             }
+            
 
         }
 
