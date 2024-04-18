@@ -13,8 +13,8 @@ public class Timer : MonoBehaviour
     private GameManager _gameManager; //게임매니저에 접근하기 위한 변수
     private Camera _mainCamera; //메인카메라
     private float _warningTime = 20.0f; //타이머 애니메이션 시작할 시간
-    private float _warningBackground = 25.0f; //애니메이션 시작할 시간
-    private float _colorChangeDuration = 10.0f; //배경색 변경에 걸리는 시간
+    private float _warningBackground = 10.0f; //배경 애니메이션 시작할 시간
+    private float _colorChangeDuration = 5.0f; //배경색 변경에 걸리는 시간
 
     void Start()
     {
@@ -27,13 +27,17 @@ public class Timer : MonoBehaviour
     {
         float time = _gameManager.GetTime(); //time에 시간 넣기
 
-        if(time >= _warningTime)
+        if(time <= _warningTime)
         {
             TimeTxtAnim.enabled = true;
         }
+        else
+        {
+            TimeTxtAnim.enabled = false;
+        }
 
-        //배경색 변경           (time - 시작 시간) / 변경에 걸리는 시간
-        float t = Mathf.Clamp01((time - _warningBackground) / _colorChangeDuration * 2); //보간에 사용될 시간 값을 계산
+        //배경색 변경
+        float t = Mathf.Clamp01((_warningBackground - time) / _colorChangeDuration); //보간에 사용될 시간 값을 계산
         _mainCamera.backgroundColor = Color.Lerp(StartColor, EndColor, t);
     }
 }
