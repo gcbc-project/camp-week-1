@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviour
     float _runningTime = 0.0f;
 
     private int _matchingCardCount = 0;
+
+    private int _notMatchingCardCount = 0; // 실패 횟 수
+
     private int _cardMatchScore = 0;
     private int _timeScore = 0;
     private int _finalScore = 0;
@@ -48,6 +51,12 @@ public class GameManager : MonoBehaviour
     public AudioClip MatchFailClip;
     AudioSource _audioSource;
 
+    [Header("난이도 초급")]
+    [SerializeField] bool isEasy = false;
+
+    public List<Card> AllCards = new List<Card>(); // 카드 배열 저장
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,7 +65,21 @@ public class GameManager : MonoBehaviour
 
         CardFlip.Instance.OnFlipCard(1);
         InitRunningTime();
+
     }
+
+
+    //모든 카드의 배열을 저장한다. 밑에 배열하면 오류가 발생해서 부득이하게 위로 올림
+    public void RegisterCard(Card card)
+    {
+        if (!AllCards.Contains(card))
+        {
+            AllCards.Add(card);
+        }
+    }
+
+
+
 
     void Update()
     {
@@ -105,6 +128,8 @@ public class GameManager : MonoBehaviour
             SecondCard.OnCloseCard();
 
             _runningTime -= FailTime;
+
+            FindAndDestroyMatch();
         }
         FirstCard = null;
         SecondCard = null;
@@ -149,4 +174,35 @@ public class GameManager : MonoBehaviour
     {
         _runningTime = GameTime;
     }
+
+    // 카드 자동파괴 로직
+    public void FindAndDestroyMatch()
+    {
+        _notMatchingCardCount++;
+      
+        if (isEasy == true)
+        {
+            if (_notMatchingCardCount % 3 == 0)
+            {
+                // 모든 카드를 비교해서 일치하는 쌍을 찾는다
+                for (int i = 0; i < AllCards.Count - 1; i++)
+                {
+                    for (int j = i + 1; j < AllCards.Count; j++)
+                    {
+                        if (AllCards[i].Index == AllCards[j].Index) // Index가 같은 카드를 찾았을 때
+                        {
+                            AllCards[i].OnDestroyCard();
+                            AllCards[j].OnDestroyCard();
+
+                            AllCards.RemoveAt(j); // 먼저 j를 제거
+                            AllCards.RemoveAt(i); // 그 다음 i를 제거
+
+                            return; // 일치하는 한 쌍을 처리했으면 함수를 종료
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
