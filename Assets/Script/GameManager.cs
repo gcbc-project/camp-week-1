@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
         _matchingCardCount++;
         TeamName.SetActive(true);  // 텍스트 UI 켜주기
 
-        SetRandomPositionForTransTime(); 
+        SetRandomPositionForTransTime();
         TransTime.SetActive(true);
 
         if (FirstCard != null && SecondCard != null)
@@ -171,7 +171,7 @@ public class GameManager : MonoBehaviour
         SecondCard = null;
         Invoke("OnClosedTeamName", 0.5f);   // 0.5초 동안 텍스트 UI를 보여준뒤 다시 UI꺼주기
 
-        Invoke("OnClosedTransTime", 0.5f); 
+        Invoke("OnClosedTransTime", 0.5f);
     }
 
     // 게임오버 함수를 밖으로 빼냄, 이를 통해 윗 구간에서 게임오버를 호출 할 수 있도록 바꿈
@@ -185,7 +185,7 @@ public class GameManager : MonoBehaviour
 
     void CalculatedFinalScore()
     {
-        _timeScore = Convert.ToInt32(Mathf.Round(_runningTime - 30) * 5);
+        _timeScore = Convert.ToInt32(Mathf.Round(GameTime - _runningTime) * 5);
         _finalScore = _timeScore + _cardMatchScore - _matchingCardCount;
     }
 
