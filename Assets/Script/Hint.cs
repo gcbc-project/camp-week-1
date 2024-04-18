@@ -7,7 +7,7 @@ public class Hint : MonoBehaviour
 {
     public Animator HintAnim;
 
-    private float _matchTimeout = 5f; //성공 매칭이 없는 시간
+    [SerializeField] private float MatchTimeout = 5f; //성공 매칭이 없는 시간
     private float activeHintTime = 0.0f;
     private bool isHint = false;
     private GameManager _gameManager; //게임매니저에 접근하기 위한 변수
@@ -25,7 +25,7 @@ public class Hint : MonoBehaviour
         //_lastMatchTime = _gameManager.MatchedTime;
 
         // CardCount가 변화하지 않은 경우
-        if (time - _gameManager.MatchedTime >= _matchTimeout && time - activeHintTime >= _matchTimeout && isHint == false)
+        if (time - _gameManager.MatchedTime >= MatchTimeout && time - activeHintTime >= MatchTimeout && isHint == false)
         {
             //_iastCardCountChangeTime = Time.time;
             isHint = true;
