@@ -13,6 +13,8 @@ public class CardFlip : MonoBehaviour
     [SerializeField] private int CanCardFlipNum = 5;
     List<Card> _cardObjects = new List<Card>();
 
+    public bool IsFlipCard = true;
+
     void Awake()
     {
         Instance = this;
@@ -20,21 +22,25 @@ public class CardFlip : MonoBehaviour
 
     public void OnFlipCard(int state)
     {
-        switch (state)
+        if (IsFlipCard)
         {
-            case 1:
-                FindAllCard(state);
-                break;
-            case 2:
-                if (CanCardFlipNum <= 0)
-                    break;
-                else
+            switch (state)
+            {
+                case 1:
                     FindAllCard(state);
-                break;
-            case 3:
-                FindAllCard(state);
-                break;
+                    break;
+                case 2:
+                    if (CanCardFlipNum <= 0)
+                        break;
+                    else
+                        FindAllCard(state);
+                    break;
+                case 3:
+                    FindAllCard(state);
+                    break;
+            }
         }
+        
     }
 
     public void FindAllCard(int state)

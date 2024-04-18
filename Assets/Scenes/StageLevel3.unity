@@ -185,8 +185,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bd9ce3c157e109478d463b2ab704a03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardFlipTime: 1
+  CardFlipTime: 2
   CanCardFlipNum: 5
+  IsFlipCard: 1
 --- !u!1 &115433826
 GameObject:
   m_ObjectHideFlags: 0

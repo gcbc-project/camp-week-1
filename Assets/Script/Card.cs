@@ -54,7 +54,14 @@ public class Card : MonoBehaviour
     }
     public void OnDestroyCard()//ī�尡 �´ٸ� ī�������Ʈ�� 1�ʵڿ� �ı�
     {
+        CardFlip.Instance.IsFlipCard = false;
+        Invoke("EnableFlipCard", 1.0f);
         Destroy(gameObject, 1.0f);
+    }
+
+    void EnableFlipCard()
+    {
+        CardFlip.Instance.IsFlipCard = true;
     }
 
     public void OnCloseCard()// ī�尡 �����ʴٸ� OnCloseCardInvoke�Լ��� 1�ʵ� ����
