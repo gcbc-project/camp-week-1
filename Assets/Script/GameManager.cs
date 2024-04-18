@@ -133,7 +133,10 @@ public class GameManager : MonoBehaviour
 
                 TeamName.GetComponent<Text>().text = FirstCard.Name.ToString();       //켜준 텍스트 UI에 이미지에 맞는 팀원 이름 띄워주기
 
-                TransTime.GetComponent<Text>().text = $"{PlusTime}초 증가"; // 시간초 증가 출력
+                TransTime.GetComponent<Text>().text = $"+{PlusTime}s"; // 시간초 증가 출력
+
+                Color MyColorBlue = new Color32(128, 206, 225, 255); // R, G, B, A
+                TransTime.GetComponent<Text>().color = MyColorBlue; // 시간초를 파랑으로 출력
 
                 _cardMatchScore += 5;
 
@@ -151,7 +154,10 @@ public class GameManager : MonoBehaviour
                 _audioSource.PlayOneShot(MatchFailClip);
                 TeamName.GetComponent<Text>().text = "실패";      //켜준 텍스트 UI에 실패 문구 띄워주기
 
-                TransTime.GetComponent<Text>().text = $"{FailTime}초 감소";
+                TransTime.GetComponent<Text>().text = $"-{FailTime}s";
+
+                Color MyColorYellow = new Color32(223, 216, 128, 255); // R, G, B, A
+                TransTime.GetComponent<Text>().color = MyColorYellow; // 시간초를 빨강으로 출력
 
                 FirstCard.OnCloseCard();
                 SecondCard.OnCloseCard();
@@ -210,7 +216,6 @@ public class GameManager : MonoBehaviour
 
     public void OnClosedTransTime()  // 텍스트 UI를 꺼주기 위한 함수 생성
     {
-        Debug.Log("시간 알림 껏당");
         TransTime.SetActive(false);      // 텍스트 UI 꺼주기
     }
 
@@ -221,8 +226,8 @@ public class GameManager : MonoBehaviour
         if (rt != null)
         {
             // 무작위 위치 설정
-            float randomX = UnityEngine.Random.Range(-330.0f, 330f);  // X 범위 설정
-            float randomY = UnityEngine.Random.Range(295.0f, 590.0f);  // Y 범위 설정
+            float randomX = UnityEngine.Random.Range(-122.0f, 160.0f);  // X 범위 설정
+            float randomY = UnityEngine.Random.Range(470.0f, 470.0f);  // Y 범위 설정
             rt.anchoredPosition = new Vector2(randomX, randomY);
         }
     }
