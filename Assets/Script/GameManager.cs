@@ -23,6 +23,9 @@ public class GameManager : MonoBehaviour
     float _runningTime = 0.0f;
 
     private int _matchingCardCount = 0;
+
+    private int _notMatchingCardCount = 0; // 실패 횟 수
+
     private int _cardMatchScore = 0;
     private int _timeScore = 0;
     private int _finalScore = 0;
@@ -30,6 +33,7 @@ public class GameManager : MonoBehaviour
     [Header("Stage")]
     [Tooltip("현재 Stage Level 입력")]
     [SerializeField] int StageLevel;
+
     // time를 public로 아에 빼냄
     [Header("게임 종료")]
     [Tooltip("GameOverPanel Prefab을 넣는다")]
@@ -49,6 +53,10 @@ public class GameManager : MonoBehaviour
     public AudioClip MatchClip;
     public AudioClip MatchFailClip;
     AudioSource _audioSource;
+
+    [Header("난이도 조절")]
+    [Tooltip("자동 파괴 배수 설정")]
+    [SerializeField] int SetCount = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -82,36 +90,44 @@ public class GameManager : MonoBehaviour
     {
         _matchingCardCount++;
         TeamName.SetActive(true);  // 텍스트 UI 켜주기
-        if (FirstCard.Index == SecondCard.Index)
-        {
-            _audioSource.PlayOneShot(MatchClip);
 
-            FirstCard.OnDestroyCard();
-            SecondCard.OnDestroyCard();
-            CardCount -= 2;
-            _runningTime += PlusTime;
+         if (FirstCard != null && SecondCard != null)
 
-            TeamName.GetComponent<Text>().text = FirstCard.Name.ToString();       //켜준 텍스트 UI에 이미지에 맞는 팀원 이름 띄워주기
-            _cardMatchScore += 5;
-
-            if (CardCount == 0)
+            if (FirstCard.Index == SecondCard.Index)
             {
-                GameOver();
-            }
+                _audioSource.PlayOneShot(MatchClip);
 
-            //변수를 하나 만들어서 현재 time을 변수에 저장하고, 이 변수를 Hint 스크립트로 가져가기
-            MatchedTime = GlobalTime;
-        }
+                FirstCard.OnDestroyCard();
+                SecondCard.OnDestroyCard();
+
+                CardCount -= 2;
+                _runningTime += PlusTime;
+
+                TeamName.GetComponent<Text>().text = FirstCard.Name.ToString();       //켜준 텍스트 UI에 이미지에 맞는 팀원 이름 띄워주기
+                _cardMatchScore += 5;
+
+                if (CardCount == 0)
+                {
+                    GameOver();
+                }
+
+                //변수를 하나 만들어서 현재 time을 변수에 저장하고, 이 변수를 Hint 스크립트로 가져가기
+                MatchedTime = GlobalTime;
+
+            }
         else//Not Matched
         {
             _audioSource.PlayOneShot(MatchFailClip);
             TeamName.GetComponent<Text>().text = "실패";      //켜준 텍스트 UI에 실패 문구 띄워주기
 
-            FirstCard.OnCloseCard();
-            SecondCard.OnCloseCard();
+                FirstCard.OnCloseCard();
+                SecondCard.OnCloseCard();
 
-            _runningTime -= FailTime;
-        }
+                _runningTime -= FailTime;
+
+                FindAndDestroyMatch();
+            }
+
         FirstCard = null;
         SecondCard = null;
         Invoke("OnClosedTeamName", 0.5f);   // 0.5초 동안 텍스트 UI를 보여준뒤 다시 UI꺼주기
@@ -155,5 +171,40 @@ public class GameManager : MonoBehaviour
     {
         _runningTime = GameTime;
         GlobalTime = 0.0f;
+    }
+
+    // 카드 자동파괴 로직
+    public void FindAndDestroyMatch()
+    {
+        _notMatchingCardCount++;
+            if (SetCount > 0 && _notMatchingCardCount % SetCount == 0)
+            {
+                // 모든 카드를 비교해서 일치하는 쌍을 찾는다
+                for (int i = Board.CardObject.Count - 1; i >= 0; i--)
+                {
+                    for (int j = i - 1; j >= 0; j--)
+                    {
+                        // 리스트크기를 줄이는 대신, 리스트 내에서 null 값이 아닌 것을 찾아서 삭제 함,
+                        if (Board.CardObject[i] != null && Board.CardObject[j] != null)
+                        {
+                            Card firstCard = Board.CardObject[i].GetComponent<Card>();
+                            Card SecondCard = Board.CardObject[j].GetComponent<Card>();
+
+                            if (firstCard != null && SecondCard != null && firstCard.Index == SecondCard.Index)
+                            {
+                                firstCard.OnDestroyCard();
+                                SecondCard.OnDestroyCard();
+
+                                Board.CardObject.RemoveAt(i);
+                                Board.CardObject.RemoveAt(j); // i와 j를 제거
+
+                                CardCount -= 2;
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+        
     }
 }
