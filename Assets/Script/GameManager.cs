@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     public Card FirstCard;
     public Card SecondCard;
     public int CardCount = 0;
+    public float MatchedTime = 0.0f; //매칭된 시간 저장용
+    public float GlobalTime = 0.0f; //게임의 절대 시간
     float _runningTime = 0.0f;
 
     private int _matchingCardCount = 0;
@@ -63,6 +65,7 @@ public class GameManager : MonoBehaviour
         if (_runningTime >= 0.0f)
         {
             _runningTime -= Time.deltaTime;
+            GlobalTime += Time.deltaTime;
         }
 
         else
@@ -95,6 +98,9 @@ public class GameManager : MonoBehaviour
             {
                 GameOver();
             }
+
+            //변수를 하나 만들어서 현재 time을 변수에 저장하고, 이 변수를 Hint 스크립트로 가져가기
+            MatchedTime = GlobalTime;
         }
         else//Not Matched
         {
@@ -148,5 +154,6 @@ public class GameManager : MonoBehaviour
     public void InitRunningTime()
     {
         _runningTime = GameTime;
+        GlobalTime = 0.0f;
     }
 }
