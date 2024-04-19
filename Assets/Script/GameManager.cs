@@ -201,7 +201,7 @@ public class GameManager : MonoBehaviour
 
     void CalculatedFinalScore()
     {
-        _timeScore = Convert.ToInt32(Mathf.Round(GameTime - _runningTime) * 5);
+        _timeScore = Convert.ToInt32(Mathf.Round(_runningTime) * 5);
         _finalScore = _timeScore + _cardMatchScore - _matchingCardCount;
     }
 
