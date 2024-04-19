@@ -379,6 +379,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5039105676898913585, guid: 8763762b58e2d2e44b0a413dfbdfa5c3, type: 3}
+      propertyPath: CanCardFlipNum
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -801,6 +805,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CardFlipTime: 1.5
   CanCardFlipNum: 5
+  ButtonText: {fileID: 0}
   IsFlipCard: 1
 --- !u!114 &723020504
 MonoBehaviour:
@@ -1383,7 +1388,7 @@ MonoBehaviour:
   GlobalTime: 0
   StageLevel: 2
   GameOverPanel: {fileID: 1275919142}
-  GameTime: 60
+  GameTime: 40
   PlusTime: 4
   FailTime: 5
   MatchClip: {fileID: 8300000, guid: e7318f2cab5dcc2449c8db817a86b897, type: 3}
