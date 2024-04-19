@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CardFlip : MonoBehaviour
 {
     public static CardFlip Instance;
     [SerializeField] private float CardFlipTime = 2.0f;
     [SerializeField] private int CanCardFlipNum = 5;
+    [SerializeField] private Text ButtonText;
     List<Card> _cardObjects = new List<Card>();
 
     public bool IsFlipCard = true;
@@ -15,6 +18,10 @@ public class CardFlip : MonoBehaviour
     void Awake()
     {
         Instance = this;
+        if (ButtonText != null)
+        {
+            ButtonText.text = "전체 뒤집기 : " + CanCardFlipNum + "회";
+        }
     }
 
     public void OnFlipCard(int state)
@@ -28,9 +35,20 @@ public class CardFlip : MonoBehaviour
                     break;
                 case 2:
                     if (CanCardFlipNum <= 0)
-                        break;
+                    {
+                        if (ButtonText != null)
+                        {
+                            this.gameObject.GetComponent<Button>().interactable = false;
+                        }
+                    }
                     else
+                    {
                         FindAllCard(state);
+                        if (ButtonText != null)
+                        {
+                            ButtonText.text = "전체 뒤집기 : " + CanCardFlipNum + "회";
+                        }
+                    }
                     break;
                 case 3:
                     FindAllCard(state);

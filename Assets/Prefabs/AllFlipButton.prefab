@@ -148,6 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CardFlipTime: 2
   CanCardFlipNum: 5
+  ButtonText: {fileID: 6938699028470614579}
   IsFlipCard: 1
 --- !u!1 &5667854299562717942
 GameObject:
