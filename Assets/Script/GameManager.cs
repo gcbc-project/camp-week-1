@@ -108,6 +108,7 @@ public class GameManager : MonoBehaviour
 
         else
         {
+            _runningTime = 0.0f;
             GameOver();
             OverTime();
         }
@@ -202,7 +203,7 @@ public class GameManager : MonoBehaviour
     void CalculatedFinalScore()
     {
         _timeScore = Convert.ToInt32(Mathf.Round(_runningTime) * 5);
-        _finalScore = _timeScore + _cardMatchScore - _matchingCardCount;
+        _finalScore = Math.Max(_timeScore + _cardMatchScore - _matchingCardCount, 0);
     }
 
     public float GetTime()
