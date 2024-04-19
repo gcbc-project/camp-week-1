@@ -6,9 +6,6 @@ using UnityEngine;
 public class CardFlip : MonoBehaviour
 {
     public static CardFlip Instance;
-
-    private Card[] _cardNum;
-
     [SerializeField] private float CardFlipTime = 2.0f;
     [SerializeField] private int CanCardFlipNum = 5;
     List<Card> _cardObjects = new List<Card>();
@@ -40,7 +37,7 @@ public class CardFlip : MonoBehaviour
                     break;
             }
         }
-        
+
     }
 
     public void FindAllCard(int state)
@@ -52,36 +49,38 @@ public class CardFlip : MonoBehaviour
             CanCardFlipNum--;
 
         _cardObjects = Board.CardObject.Where(card => card != null).ToList();
-
-        _cardNum = new Card[_cardObjects.Count];
-
+        StartCoroutine(OnAllCardFlipFront(state));
+    }
+    IEnumerator OnAllCardFlipFront(int state)
+    {
         for (int i = 0; i < _cardObjects.Count; i++)
         {
-            _cardNum[i] = _cardObjects[i];
-        }
-        OnAllCardFlipFront(state);
-    }
-    void OnAllCardFlipFront(int state)
-    {
-        for (int i = 0; i < _cardNum.Length; i++)
-        {
-            _cardNum[i].OnCardFlipFront();
+            if (_cardObjects[i] != null)
+            {
+                _cardObjects[i].OnCardFlipFront();
+            }
         }
         if (state == 1)
-            Invoke("TimeTextActive", CardFlipTime);
-        Invoke("OnAllCardFlipBack", CardFlipTime);
+            StartCoroutine(TimeTextActive(CardFlipTime));
+        yield return new WaitForSeconds(CardFlipTime);
+        StartCoroutine(OnAllCardFlipBack());
 
     }
-    void OnAllCardFlipBack()
+    IEnumerator OnAllCardFlipBack()
     {
-        for (int i = 0; i < _cardNum.Length; i++)
+        for (int i = 0; i < _cardObjects.Count; i++)
         {
-            _cardNum[i].OnCloseCardInvoke();
+            if (_cardObjects[i] != null)
+            {
+                _cardObjects[i].OnCloseCardInvoke();
+            }
         }
+        yield break;
     }
 
-    void TimeTextActive()
+    IEnumerator TimeTextActive(float delay)
     {
+        yield return new WaitForSeconds(delay);
         GameManager.Instance.TimeTxt.gameObject.SetActive(true);
         GameManager.Instance.InitRunningTime();
     }

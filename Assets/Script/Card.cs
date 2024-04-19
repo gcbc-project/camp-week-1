@@ -55,23 +55,35 @@ public class Card : MonoBehaviour
     public void OnDestroyCard()//ī�尡 �´ٸ� ī�������Ʈ�� 1�ʵڿ� �ı�
     {
         CardFlip.Instance.IsFlipCard = false;
-        Invoke("EnableFlipCard", 1.0f);
+        // Invoke("EnableFlipCard", 1.0f);
+        StartCoroutine(EnableFlipCardAfterDelay(1.0f));
+        Board.CardObject.Remove(gameObject.GetComponent<Card>());
         Destroy(gameObject, 1.0f);
     }
 
-    void EnableFlipCard()
+    IEnumerator EnableFlipCardAfterDelay(float delay)
     {
+        yield return new WaitForSeconds(delay);
         CardFlip.Instance.IsFlipCard = true;
     }
 
     public void OnCloseCard()// ī�尡 �����ʴٸ� OnCloseCardInvoke�Լ��� 1�ʵ� ����
     {
-        Invoke("OnCloseCardInvoke", 1.0f);
+        StartCoroutine(OnCloseCardAfterDelay(1.0f));
+    }
+
+    IEnumerator OnCloseCardAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        OnCloseCardInvoke();
     }
 
     public void OnCloseCardInvoke()//ī�带 �ٽ� ������
     {
-        CardAnim.SetBool("isOpen", false);
+        if (CardAnim != null)
+        {
+            CardAnim.SetBool("isOpen", false);
+        }
         transform.Find("Front").gameObject.SetActive(false);
         transform.Find("Back").gameObject.SetActive(true);
     }
@@ -83,9 +95,9 @@ public class Card : MonoBehaviour
         transform.Find("Back").gameObject.SetActive(false);
     }
 
-   //카드 색상 랜덤 변경
-   public void ChangeRandomColor()
-    { 
+    //카드 색상 랜덤 변경
+    public void ChangeRandomColor()
+    {
         _cardBackSprite.color = TwinckleColor;
     }
 }

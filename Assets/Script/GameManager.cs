@@ -10,7 +10,10 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
     }
 
     public Text TimeTxt;
@@ -170,9 +173,21 @@ public class GameManager : MonoBehaviour
 
         FirstCard = null;
         SecondCard = null;
-        Invoke("OnClosedTeamName", 0.5f);   // 0.5초 동안 텍스트 UI를 보여준뒤 다시 UI꺼주기
 
-        Invoke("OnClosedTransTime", 0.5f);
+        StartCoroutine(OnClosedTeamNameCoroutine(0.5f));
+        StartCoroutine(OnClosedTransTimeCoroutine(0.5f));
+    }
+
+    IEnumerator OnClosedTeamNameCoroutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        OnClosedTeamName();
+    }
+
+    IEnumerator OnClosedTransTimeCoroutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        OnClosedTransTime();
     }
 
     // 게임오버 함수를 밖으로 빼냄, 이를 통해 윗 구간에서 게임오버를 호출 할 수 있도록 바꿈
@@ -256,9 +271,6 @@ public class GameManager : MonoBehaviour
                         {
                             firstCard.OnDestroyCard();
                             SecondCard.OnDestroyCard();
-
-                            Board.CardObject.RemoveAt(i);
-                            Board.CardObject.RemoveAt(j); // i와 j를 제거
 
                             CardCount -= 2;
                             return;
