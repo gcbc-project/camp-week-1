@@ -15,8 +15,6 @@ public class GameManager : MonoBehaviour
 
     public Text TimeTxt;
     public GameObject TeamName; // 팀네임 텍스트 생성
-    public GameObject TransTime; // 시간 변화 표시
-
     public Card FirstCard;
     public Card SecondCard;
     public int CardCount = 0;
@@ -70,6 +68,10 @@ public class GameManager : MonoBehaviour
     [Header("카드 셔플 여부")]
     [SerializeField] bool IsCardSuffle = true;
 
+    [Header("시간 변화 표시")]
+    [SerializeField] GameObject TransTimeArea;
+    [SerializeField] Text TransTime;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -110,14 +112,13 @@ public class GameManager : MonoBehaviour
         TimeTxt.text = _runningTime.ToString("N2");
     }
 
-
     public void Matched()
     {
         _matchingCardCount++;
         TeamName.SetActive(true);  // 텍스트 UI 켜주기
 
         SetRandomPositionForTransTime();
-        TransTime.SetActive(true);
+        TransTimeArea.SetActive(true);
 
         if (FirstCard != null && SecondCard != null)
 
@@ -216,18 +217,18 @@ public class GameManager : MonoBehaviour
 
     public void OnClosedTransTime()  // 텍스트 UI를 꺼주기 위한 함수 생성
     {
-        TransTime.SetActive(false);      // 텍스트 UI 꺼주기
+        TransTimeArea.SetActive(false);      // 텍스트 UI 꺼주기
     }
 
     // 랜덤 위치 생성
     void SetRandomPositionForTransTime()
     {
-        RectTransform rt = TransTime.GetComponent<RectTransform>();
+        RectTransform rt = TransTimeArea.GetComponent<RectTransform>();
         if (rt != null)
         {
             // 무작위 위치 설정
-            float randomX = UnityEngine.Random.Range(-122.0f, 160.0f);  // X 범위 설정
-            float randomY = UnityEngine.Random.Range(470.0f, 470.0f);  // Y 범위 설정
+            float randomX = UnityEngine.Random.Range(-70.0f, 70.0f);  // X 범위 설정
+            float randomY = UnityEngine.Random.Range(420.0f, 430.0f);  // Y 범위 설정
             rt.anchoredPosition = new Vector2(randomX, randomY);
         }
     }
