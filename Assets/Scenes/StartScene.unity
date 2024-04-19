@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 133062087}
   - component: {fileID: 133062086}
   - component: {fileID: 133062089}
+  - component: {fileID: 133062090}
   m_Layer: 5
   m_Name: ExitGameBtn
   m_TagString: Untagged
@@ -269,6 +270,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db19095ef0b42b4297139b9660fbcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &133062090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133062084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 5, y: -5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &324672540
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,6 +298,7 @@ GameObject:
   - component: {fileID: 324672543}
   - component: {fileID: 324672542}
   - component: {fileID: 324672545}
+  - component: {fileID: 324672546}
   m_Layer: 5
   m_Name: StartBtn
   m_TagString: Untagged
@@ -415,6 +432,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db19095ef0b42b4297139b9660fbcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &324672546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324672540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 5, y: -5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &592493855
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,6 +657,7 @@ GameObject:
   - component: {fileID: 699905851}
   - component: {fileID: 699905850}
   - component: {fileID: 699905853}
+  - component: {fileID: 699905854}
   m_Layer: 5
   m_Name: DeleteDataBtn
   m_TagString: Untagged
@@ -758,6 +791,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db19095ef0b42b4297139b9660fbcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &699905854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 699905848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 5, y: -5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &705599538
 GameObject:
   m_ObjectHideFlags: 0
